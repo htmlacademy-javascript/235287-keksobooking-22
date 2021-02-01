@@ -18,7 +18,7 @@ const getRandomBetween = (min, max) => {
   }
 };
 
-getRandomInteger(10, 150);
+getRandomBetween(10, 150);
 
 const getRandomFloat = (min, max, symbolsDigit) => {
 
@@ -34,7 +34,7 @@ const getRandomFloat = (min, max, symbolsDigit) => {
   }
 
   if (min >= 0 && max >= 0 && min < max) {
-    return Number((Math.random() * (max - min) + min).toFixed(symbolsNumber));
+    return Number((Math.random() * (max - min) + min).toFixed(symbolsDigit));
   }
 };
 
