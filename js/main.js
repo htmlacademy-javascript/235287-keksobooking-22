@@ -104,7 +104,7 @@ const getRandomArrayElement = (elements) => {
 };
 
 const getRandomAvatar = () => {
-  return 'img/avatars/user' + '0' + getRandomBetween(AvatarValue.min, AvatarValue.max) + '.png'
+  return 'img/avatars/user'.padEnd(17,'0') + getRandomBetween(AvatarValue.min, AvatarValue.max) + '.png'
 }
 
 const getRandomArrayWithUniqueElements = (array, n) => {
