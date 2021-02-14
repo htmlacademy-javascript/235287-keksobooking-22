@@ -33,7 +33,7 @@ const GuestsNumber = {
 
 const AvatarValue = {
   min: 1,
-  max: 10,
+  max: 8,
 };
 
 const PRICE_MIN = 1;
@@ -148,8 +148,7 @@ const createAdSet = (ADS_NUMBER) => {
   const adSet = []
 
   for (let i = 0; i < ADS_NUMBER; i++) {
-    const newAd = createAd();
-    adSet.push(newAd)
+    adSet.push(createAd())
   }
 
   return adSet
