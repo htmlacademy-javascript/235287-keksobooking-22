@@ -44,12 +44,6 @@ const getRandomBetween = (min, max) => {
   return Math.floor(Math.random() * (roundedMax - roundedMin + 1) + roundedMin);
 };
 
-try {
-  getRandomBetween(1, 20);
-} catch (err) {
-  alert(err);
-}
-
 const getRandomFloat = (min, max, symbolsDigit) => {
 
   let roundedMin = Math.ceil(min);
@@ -76,12 +70,6 @@ const getRandomFloat = (min, max, symbolsDigit) => {
 
   return Number((Math.random() * (roundedMax - roundedMin) + roundedMin).toFixed(symbolsDigit));
 };
-
-try {
-  getRandomFloat(1, 20, 4);
-} catch (err) {
-  alert(err);
-}
 
 const getRandomArrayElement = (elements) => {
   return elements[getRandomBetween(0, elements.length - 1)];
