@@ -4,10 +4,38 @@ const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'condit
 const PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 const TITLES = ['Этот дом подходит именно вам!', 'Лучшее предложение на рынке', 'Уютный дом на выходные', 'Отличный вариант рядом с метро', 'Не проходите мимо!', 'Самая выгодная цена за ночь!']
 const DESCRIPTIONS = ['Просто лучшее предложение из тех, что вы могли найти!', 'Идеальный вариант для туристов на пару ночей', 'Удачное расположение в центре города, все удобства, интернет включен в стоимость аренды', 'В этой квартире можно устраивать самые шумные вечеринки!', 'Разрешено проживание с животыми'];
-const COORDINATE_X_MIN = 35.65000;
-const COORDINATE_X_MAX = 35.70000;
-const COORDINATE_Y_MIN = 139.70000;
-const COORDINATE_Y_MAX = 139.80000;
+const ADS_NUMBER = 10;
+
+const CoordinateX = {
+  min: 35.65000,
+  max: 35.70000,
+};
+
+const CoordinateY = {
+  min: 139.70000,
+  max: 139.80000,
+};
+
+const Price = {
+  min: 1,
+  max: 1000000,
+};
+
+const RoomsNumber = {
+  min: 1,
+  max: 20,
+};
+
+const GuestsNumber = {
+  min: 1,
+  max: 40,
+};
+
+const AvatarValue = {
+  min: 1,
+  max: 10,
+};
+
 const PRICE_MIN = 1;
 const PRICE_MAX = 1000000;
 const ROOMS_NUMBER_MIN = 1;
@@ -16,7 +44,7 @@ const GUESTS_NUMBER_MIN = 1;
 const GUESTS_NUMBER_MAX = 40;
 const AVATAR_MIN = 1;
 const AVATAR_MAX = 8;
-const ADS_NUMBER = 10;
+
 
 const getRandomBetween = (min, max) => {
   let roundedMin = Math.ceil(min);
@@ -76,7 +104,7 @@ const getRandomArrayElement = (elements) => {
 };
 
 const getRandomAvatar = () => {
-  return 'img/avatars/user' + '0' + getRandomBetween(AVATAR_MIN, AVATAR_MAX) + '.png'
+  return 'img/avatars/user' + '0' + getRandomBetween(AvatarValue.min, AvatarValue.max) + '.png'
 }
 
 const getRandomArrayWithUniqueElements = (array, n) => {
@@ -85,8 +113,8 @@ const getRandomArrayWithUniqueElements = (array, n) => {
 
 const createAd = () => {
 
-  const locationX = getRandomFloat(COORDINATE_X_MIN, COORDINATE_X_MAX, 5);
-  const locationY = getRandomFloat(COORDINATE_Y_MIN, COORDINATE_Y_MAX, 5);
+  const locationX = getRandomFloat(CoordinateX.min, CoordinateX.max, 5);
+  const locationY = getRandomFloat(CoordinateY.min, CoordinateY.max, 5);
 
   return {
 
@@ -97,10 +125,10 @@ const createAd = () => {
     offer: {
       title: getRandomArrayElement(TITLES),
       adress: '' + locationX + ', ' + '' + locationY,
-      price: getRandomBetween(PRICE_MIN, PRICE_MAX),
+      price: getRandomBetween(Price.min, Price.max),
       type: getRandomArrayElement(HOUSE_TYPE),
-      rooms: getRandomBetween(ROOMS_NUMBER_MIN, ROOMS_NUMBER_MAX),
-      guests: getRandomBetween(GUESTS_NUMBER_MIN, GUESTS_NUMBER_MAX),
+      rooms: getRandomBetween(RoomsNumber.min, RoomsNumber.max),
+      guests: getRandomBetween(GuestsNumber.min, GuestsNumber.max),
       checkin: getRandomArrayElement(TIME),
       checkout: getRandomArrayElement(TIME),
       features: getRandomArrayWithUniqueElements(FEATURES, getRandomBetween(1, FEATURES.length -1)),
