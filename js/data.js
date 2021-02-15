@@ -14,44 +14,44 @@ const DESCRIPTIONS = ['Просто лучшее предложение из т�
 const ADS_NUMBER = 10;
 
 const CoordinateX = {
-  min: 35.65000,
-  max: 35.70000,
+  MIN: 35.65000,
+  MAX: 35.70000,
 };
 
 const CoordinateY = {
-  min: 139.70000,
-  max: 139.80000,
+  MIN: 139.70000,
+  MAX: 139.80000,
 };
 
 const Price = {
-  min: 1,
-  max: 1000000,
+  MIN: 1,
+  MAX: 1000000,
 };
 
 const RoomsNumber = {
-  min: 1,
-  max: 20,
+  MIN: 1,
+  MAX: 20,
 };
 
 const GuestsNumber = {
-  min: 1,
-  max: 40,
+  MIN: 1,
+  MAX: 40,
 };
 
 const AvatarValue = {
-  min: 1,
-  max: 8,
+  MIN: 10,
+  MAX: 80,
 };
 
-
 const getRandomAvatar = () => {
-  return 'img/avatars/user'.padEnd(17,'0') + getRandomBetween(AvatarValue.min, AvatarValue.max) + '.png'
+  const avatarNumber = getRandomBetween(AvatarValue.MIN, AvatarValue.MAX).toString();
+  return 'img/avatars/user' + avatarNumber.padStart(2,'0') + '.png'
 }
 
 const createAd = () => {
 
-  const locationX = getRandomFloat(CoordinateX.min, CoordinateX.max, 5);
-  const locationY = getRandomFloat(CoordinateY.min, CoordinateY.max, 5);
+  const locationX = getRandomFloat(CoordinateX.MIN, CoordinateX.MAX, 5);
+  const locationY = getRandomFloat(CoordinateY.MIN, CoordinateY.MAX, 5);
 
   return {
 
@@ -62,10 +62,10 @@ const createAd = () => {
     offer: {
       title: getRandomArrayElement(TITLES),
       adress: '' + locationX + ', ' + '' + locationY,
-      price: getRandomBetween(Price.min, Price.max),
+      price: getRandomBetween(Price.MAX, Price.MAX),
       type: getRandomArrayElement(HOUSE_TYPE),
-      rooms: getRandomBetween(RoomsNumber.min, RoomsNumber.max),
-      guests: getRandomBetween(GuestsNumber.min, GuestsNumber.max),
+      rooms: getRandomBetween(RoomsNumber.MIN, RoomsNumber.MAX),
+      guests: getRandomBetween(GuestsNumber.MIN, GuestsNumber.MAX),
       checkin: getRandomArrayElement(TIME),
       checkout: getRandomArrayElement(TIME),
       features: getRandomArrayWithUniqueElements(FEATURES, getRandomBetween(1, FEATURES.length -1)),
@@ -93,3 +93,5 @@ const createAdSet = (ADS_NUMBER) => {
 
 // eslint-disable-next-line
 const ads = createAdSet(ADS_NUMBER);
+
+export {ads};
