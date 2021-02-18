@@ -59,9 +59,14 @@ const getRandomArrayWithUniqueElements = (array, n) => {
   return array.sort(() => 0.5 - Math.random()).slice(0, n)
 }
 
+const getRandomObjectValue = (object) => {
+  return object[Object.keys(object)[Math.floor(Math.random() * Object.keys(object).length)]]; //нашел вот тут https://clck.ru/TLnbh
+};
+
 export {
   getRandomBetween,
   getRandomFloat,
   getRandomArrayElement,
-  getRandomArrayWithUniqueElements
+  getRandomArrayWithUniqueElements,
+  getRandomObjectValue
 };

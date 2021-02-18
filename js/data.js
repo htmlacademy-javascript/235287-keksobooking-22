@@ -2,16 +2,23 @@ import  {
   getRandomBetween,
   getRandomFloat,
   getRandomArrayElement,
-  getRandomArrayWithUniqueElements
+  getRandomArrayWithUniqueElements,
+  getRandomObjectValue
 } from './util.js';
 
-const HOUSE_TYPE = ['palace', 'flat', 'house', 'bungalow'];
 const TIME = ['12:00', '13:00', '14:00'];
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 const TITLES = ['Этот дом подходит именно вам!', 'Лучшее предложение на рынке', 'Уютный дом на выходные', 'Отличный вариант рядом с метро', 'Не проходите мимо!', 'Самая выгодная цена за ночь!']
 const DESCRIPTIONS = ['Просто лучшее предложение из тех, что вы могли найти!', 'Идеальный вариант для туристов на пару ночей', 'Удачное расположение в центре города, все удобства, интернет включен в стоимость аренды', 'В этой квартире можно устраивать самые шумные вечеринки!', 'Разрешено проживание с животыми'];
 const ADS_NUMBER = 10;
+
+const HouseTypes = {
+  bungalo: 'Бунгало',
+  flat: 'Квартира',
+  house: 'Дом',
+  palace: 'Дворец',
+};
 
 const CoordinateX = {
   MIN: 35.65000,
@@ -63,7 +70,7 @@ const createAd = () => {
       title: getRandomArrayElement(TITLES),
       adress: '' + locationX + ', ' + '' + locationY,
       price: getRandomBetween(Price.MIN, Price.MAX),
-      type: getRandomArrayElement(HOUSE_TYPE),
+      type: getRandomObjectValue(HouseTypes),
       rooms: getRandomBetween(RoomsNumber.MIN, RoomsNumber.MAX),
       guests: getRandomBetween(GuestsNumber.MIN, GuestsNumber.MAX),
       checkin: getRandomArrayElement(TIME),
