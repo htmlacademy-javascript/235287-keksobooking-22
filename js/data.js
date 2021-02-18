@@ -39,8 +39,8 @@ const GuestsNumber = {
 };
 
 const AvatarValue = {
-  MIN: 10,
-  MAX: 80,
+  MIN: 1,
+  MAX: 8,
 };
 
 const getRandomAvatar = () => {
@@ -62,7 +62,7 @@ const createAd = () => {
     offer: {
       title: getRandomArrayElement(TITLES),
       adress: '' + locationX + ', ' + '' + locationY,
-      price: getRandomBetween(Price.MAX, Price.MAX),
+      price: getRandomBetween(Price.MIN, Price.MAX),
       type: getRandomArrayElement(HOUSE_TYPE),
       rooms: getRandomBetween(RoomsNumber.MIN, RoomsNumber.MAX),
       guests: getRandomBetween(GuestsNumber.MIN, GuestsNumber.MAX),
@@ -94,4 +94,9 @@ const createAdSet = (ADS_NUMBER) => {
 // eslint-disable-next-line
 const ads = createAdSet(ADS_NUMBER);
 
-export {ads};
+export {
+  ads,
+  createAdSet,
+  createAd,
+  ADS_NUMBER
+};
