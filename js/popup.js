@@ -23,16 +23,15 @@ const createPopup = (popupData) => {
 
   const createPhotosListForPopup = () => {
     popupPhotos.textContent = '';
+    const popupPhoto = document.createElement('img');
     popupData.offer.photos.forEach((photo, i) => {
-      let popupPhoto = document.createElement('img');
-      popupPhoto.src = popupData.offer.photos[i];
-      popupPhoto.classList.add('popup__photo');
-      popupPhoto.style.width = PopupPhotosSizes.WIDTH + 'px';
-      popupPhoto.style.height = PopupPhotosSizes.HEIGHT + 'px';
-      popupPhoto.alt = 'Описание фотографии';
-      popupPhotos.appendChild(popupPhoto);
-
-      return popupPhotos;
+      const popupPhotoTemplate = popupPhoto.cloneNode(true);
+      popupPhotoTemplate.src = popupData.offer.photos[i];
+      popupPhotoTemplate.classList.add('popup__photo');
+      popupPhotoTemplate.style.width = PopupPhotosSizes.WIDTH + 'px';
+      popupPhotoTemplate.style.height = PopupPhotosSizes.HEIGHT + 'px';
+      popupPhotoTemplate.alt = 'Описание фотографии';
+      popupPhotos.appendChild(popupPhotoTemplate);
     })
   };
 
@@ -40,7 +39,7 @@ const createPopup = (popupData) => {
     popupFeatures.textContent = '';
     popupData.offer.features.forEach((feature, i) => {
       let popupFeature = document.createElement('li');
-      popupFeature.classList.add('popup__feature', 'popup__feature--' + popupData.offer.features[i]);
+      popupFeature.classList.add('popup__feature', `popup__feature--${popupData.offer.features[i]}`);
       popupFeatures.appendChild(popupFeature);
     })
   };
@@ -64,7 +63,7 @@ const createPopup = (popupData) => {
   }
 
   if (popupData.offer.price) {
-    popup.querySelector('.popup__text--price').textContent = popupData.offer.price + ' ₽/ночь';
+    popup.querySelector('.popup__text--price').textContent = `${popupData.offer.price} ₽/ночь`;
   } else {
     popup.querySelector('.popup__text--price').remove();
   }
@@ -76,13 +75,13 @@ const createPopup = (popupData) => {
   }
 
   if (popupData.offer.rooms && popupData.offer.guests) {
-    popup.querySelector('.popup__text--capacity').textContent = popupData.offer.rooms + ' комнаты для ' + popupData.offer.guests + ' гостей';
+    popup.querySelector('.popup__text--capacity').textContent = `${popupData.offer.rooms} комнаты для  ${popupData.offer.guests} гостей`;
   } else {
     popup.querySelector('.popup__text--capacity').remove();
   }
 
   if (popupData.offer.checkin && popupData.offer.checkout) {
-    popup.querySelector('.popup__text--time').textContent = 'Заезд после ' + popupData.offer.checkin + ', выезд до ' + popupData.offer.checkout;
+    popup.querySelector('.popup__text--time').textContent = `Заезд после ${popupData.offer.checkin} , выезд до ${popupData.offer.checkout}`;
   } else {
     popup.querySelector('.popup__text--time').remove();
   }

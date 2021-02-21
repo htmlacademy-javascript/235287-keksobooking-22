@@ -8,12 +8,30 @@ import  {
 
 const TIME = ['12:00', '13:00', '14:00'];
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-const PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-const TITLES = ['Этот дом подходит именно вам!', 'Лучшее предложение на рынке', 'Уютный дом на выходные', 'Отличный вариант рядом с метро', 'Не проходите мимо!', 'Самая выгодная цена за ночь!']
-const DESCRIPTIONS = ['Просто лучшее предложение из тех, что вы могли найти!', 'Идеальный вариант для туристов на пару ночей', 'Удачное расположение в центре города, все удобства, интернет включен в стоимость аренды', 'В этой квартире можно устраивать самые шумные вечеринки!', 'Разрешено проживание с животыми'];
+const PHOTOS = [
+  'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
+];
+
+const TITLES = [
+  'Этот дом подходит именно вам!',
+  'Лучшее предложение на рынке',
+  'Уютный дом на выходные',
+  'Отличный вариант рядом с метро',
+  'Не проходите мимо!',
+  'Самая выгодная цена за ночь!'];
+
+const DESCRIPTIONS = [
+  'Просто лучшее предложение из тех, что вы могли найти!',
+  'Идеальный вариант для туристов на пару ночей',
+  'Удачное расположение в центре города, все удобства, интернет включен в стоимость аренды',
+  'В этой квартире можно устраивать самые шумные вечеринки!',
+  'Разрешено проживание с животыми'];
+
 const ADS_NUMBER = 10;
 
-const HouseTypes = {
+const HOUSE_TYPES = {
   bungalo: 'Бунгало',
   flat: 'Квартира',
   house: 'Дом',
@@ -59,6 +77,7 @@ const createAd = () => {
 
   const locationX = getRandomFloat(CoordinateX.MIN, CoordinateX.MAX, 5);
   const locationY = getRandomFloat(CoordinateY.MIN, CoordinateY.MAX, 5);
+  const time = getRandomArrayElement(TIME);
 
   return {
 
@@ -68,13 +87,13 @@ const createAd = () => {
 
     offer: {
       title: getRandomArrayElement(TITLES),
-      adress: '' + locationX + ', ' + '' + locationY,
+      adress: `${locationX}, ${locationY}`,
       price: getRandomBetween(Price.MIN, Price.MAX),
-      type: getRandomObjectValue(HouseTypes),
+      type: getRandomObjectValue(HOUSE_TYPES),
       rooms: getRandomBetween(RoomsNumber.MIN, RoomsNumber.MAX),
       guests: getRandomBetween(GuestsNumber.MIN, GuestsNumber.MAX),
-      checkin: getRandomArrayElement(TIME),
-      checkout: getRandomArrayElement(TIME),
+      checkin: time,
+      checkout: time,
       features: getRandomArrayWithUniqueElements(FEATURES, getRandomBetween(1, FEATURES.length -1)),
       description: getRandomArrayElement(DESCRIPTIONS),
       photos: getRandomArrayWithUniqueElements(PHOTOS),

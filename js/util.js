@@ -60,8 +60,10 @@ const getRandomArrayWithUniqueElements = (array, n) => {
 }
 
 const getRandomObjectValue = (object) => {
-  return object[Object.keys(object)[Math.floor(Math.random() * Object.keys(object).length)]]; //нашел вот тут https://clck.ru/TLnbh
-};
+  const randomKey = getRandomArrayElement(Object.keys(object))
+  const randomKyeValue = object[randomKey];
+  return randomKyeValue
+}
 
 export {
   getRandomBetween,
