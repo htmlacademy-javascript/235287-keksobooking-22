@@ -27,13 +27,11 @@ const PopupAvatarsSizes = {
 
 const popupTemplate = document.querySelector('#card').content.querySelector('.popup');
 const popupList = document.querySelector('#map-canvas');
+const popup = popupTemplate.cloneNode(true);
+const popupFeatures = popup.querySelector('.popup__features');
+const popupPhotos = popup.querySelector('.popup__photos');
 
-const createPopup = (popupData) => {
-  const popup = popupTemplate.cloneNode(true);
-  const popupFeatures = popup.querySelector('.popup__features');
-  const popupPhotos = popup.querySelector('.popup__photos');
-
-  const createPhotosListForPopup = () => {
+const createPhotosListForPopup = (popupData) => {
     popupPhotos.textContent = '';
     const popupPhoto = document.createElement('img');
     popupData.offer.photos.forEach((photo, i) => {
@@ -47,7 +45,7 @@ const createPopup = (popupData) => {
     })
   };
 
-  const createFeatureListForPopup = () => {
+const createFeatureListForPopup = (popupData) => {
     popupFeatures.textContent = '';
     const popupFeature = document.createElement('li');
     popupData.offer.features.forEach((feature, i) => {
@@ -56,6 +54,8 @@ const createPopup = (popupData) => {
       popupFeatures.appendChild(popupFeatureTemplate);
     })
   };
+
+const createPopup = (popupData) => {
 
   if (popupData.author.avatar) {
     popup.querySelector('.popup__avatar').src = popupData.author.avatar;
@@ -106,13 +106,13 @@ const createPopup = (popupData) => {
   }
 
   if (popupData.offer.photos) {
-    createPhotosListForPopup();
+    createPhotosListForPopup(popupData);
   } else {
     popupPhotos.remove();
   }
 
   if (popupData.offer.features) {
-    createFeatureListForPopup();
+    createFeatureListForPopup(popupData);
   } else {
     popupFeatures.remove();
   }
@@ -120,9 +120,7 @@ const createPopup = (popupData) => {
   return popup
 }
 
-const testPopup = popupList.appendChild(createPopup(createAdSet(ADS_NUMBER)[0]));
-
 export {
   createPopup,
-  testPopup
+  popupList
 }

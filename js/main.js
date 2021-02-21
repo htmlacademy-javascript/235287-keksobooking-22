@@ -1,4 +1,6 @@
 // eslint-disable-next-line
-import {ads} from './data.js';
+import {ads, createAdSet, ADS_NUMBER} from './data.js';
 // eslint-disable-next-line
-import {testPopup, createPopup} from './popup.js';
+import {createPopup, popupList} from './popup.js';
+
+const testPopup = popupList.appendChild(createPopup(createAdSet(ADS_NUMBER)[0]));
