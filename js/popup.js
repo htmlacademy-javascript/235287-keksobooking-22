@@ -32,28 +32,28 @@ const popupFeatures = popup.querySelector('.popup__features');
 const popupPhotos = popup.querySelector('.popup__photos');
 
 const createPhotosListForPopup = (popupData) => {
-    popupPhotos.textContent = '';
-    const popupPhoto = document.createElement('img');
-    popupData.offer.photos.forEach((photo, i) => {
-      const popupPhotoTemplate = popupPhoto.cloneNode(true);
-      popupPhotoTemplate.src = popupData.offer.photos[i];
-      popupPhotoTemplate.classList.add('popup__photo');
-      popupPhotoTemplate.style.width = `${PopupPhotosSizes.WIDTH}px`;
-      popupPhotoTemplate.style.height = `${PopupPhotosSizes.HEIGHT}px`;
-      popupPhotoTemplate.alt = 'Описание фотографии';
-      popupPhotos.appendChild(popupPhotoTemplate);
-    })
-  };
+  popupPhotos.textContent = '';
+  const popupPhoto = document.createElement('img');
+  popupData.offer.photos.forEach((photo, i) => {
+    const popupPhotoTemplate = popupPhoto.cloneNode(true);
+    popupPhotoTemplate.src = popupData.offer.photos[i];
+    popupPhotoTemplate.classList.add('popup__photo');
+    popupPhotoTemplate.style.width = `${PopupPhotosSizes.WIDTH}px`;
+    popupPhotoTemplate.style.height = `${PopupPhotosSizes.HEIGHT}px`;
+    popupPhotoTemplate.alt = 'Описание фотографии';
+    popupPhotos.appendChild(popupPhotoTemplate);
+  })
+};
 
 const createFeatureListForPopup = (popupData) => {
-    popupFeatures.textContent = '';
-    const popupFeature = document.createElement('li');
-    popupData.offer.features.forEach((feature, i) => {
-      const popupFeatureTemplate = popupFeature.cloneNode(true);
-      popupFeatureTemplate.classList.add('popup__feature', `popup__feature--${popupData.offer.features[i]}`);
-      popupFeatures.appendChild(popupFeatureTemplate);
-    })
-  };
+  popupFeatures.textContent = '';
+  const popupFeature = document.createElement('li');
+  popupData.offer.features.forEach((feature, i) => {
+    const popupFeatureTemplate = popupFeature.cloneNode(true);
+    popupFeatureTemplate.classList.add('popup__feature', `popup__feature--${popupData.offer.features[i]}`);
+    popupFeatures.appendChild(popupFeatureTemplate);
+  })
+};
 
 const createPopup = (popupData) => {
 
