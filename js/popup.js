@@ -1,7 +1,19 @@
 // eslint-disable-next-line
 import {ADS_NUMBER, createAdSet, createAd} from './data.js';
 // eslint-disable-next-line
-import {getRandomBetween, getRandomFloat, getRandomArrayElement, getRandomArrayWithUniqueElements, getRandomObjectValue} from './util.js';
+import {getRandomBetween, getRandomFloat, getRandomArrayElement, getRandomArrayWithUniqueElements, getRandomObjectValue, pluralize} from './util.js';
+
+const ROOMS_VARIANTS = [
+  'комната',
+  'комнаты',
+  'комнат',
+];
+
+const GUESTS_VARIANTS = [
+  'гостя',
+  'гостей',
+  'гостей',
+];
 
 const PopupPhotosSizes = {
   WIDTH: 45,
@@ -28,8 +40,8 @@ const createPopup = (popupData) => {
       const popupPhotoTemplate = popupPhoto.cloneNode(true);
       popupPhotoTemplate.src = popupData.offer.photos[i];
       popupPhotoTemplate.classList.add('popup__photo');
-      popupPhotoTemplate.style.width = PopupPhotosSizes.WIDTH + 'px';
-      popupPhotoTemplate.style.height = PopupPhotosSizes.HEIGHT + 'px';
+      popupPhotoTemplate.style.width = `${PopupPhotosSizes.WIDTH}px`;
+      popupPhotoTemplate.style.height = `${PopupPhotosSizes.HEIGHT}px`;
       popupPhotoTemplate.alt = 'Описание фотографии';
       popupPhotos.appendChild(popupPhotoTemplate);
     })
@@ -37,10 +49,11 @@ const createPopup = (popupData) => {
 
   const createFeatureListForPopup = () => {
     popupFeatures.textContent = '';
+    const popupFeature = document.createElement('li');
     popupData.offer.features.forEach((feature, i) => {
-      let popupFeature = document.createElement('li');
-      popupFeature.classList.add('popup__feature', `popup__feature--${popupData.offer.features[i]}`);
-      popupFeatures.appendChild(popupFeature);
+      const popupFeatureTemplate = popupFeature.cloneNode(true);
+      popupFeatureTemplate.classList.add('popup__feature', `popup__feature--${popupData.offer.features[i]}`);
+      popupFeatures.appendChild(popupFeatureTemplate);
     })
   };
 
@@ -75,7 +88,7 @@ const createPopup = (popupData) => {
   }
 
   if (popupData.offer.rooms && popupData.offer.guests) {
-    popup.querySelector('.popup__text--capacity').textContent = `${popupData.offer.rooms} комнаты для  ${popupData.offer.guests} гостей`;
+    popup.querySelector('.popup__text--capacity').textContent = `${popupData.offer.rooms} ${pluralize(popupData.offer.rooms, ROOMS_VARIANTS)} для ${popupData.offer.guests} ${pluralize(popupData.offer.guests, GUESTS_VARIANTS)}`;
   } else {
     popup.querySelector('.popup__text--capacity').remove();
   }
