@@ -59,9 +59,30 @@ const getRandomArrayWithUniqueElements = (array, n) => {
   return array.sort(() => 0.5 - Math.random()).slice(0, n)
 }
 
+const getRandomObjectValue = (object) => {
+  const randomKey = getRandomArrayElement(Object.keys(object));
+  const randomKyeValue = object[randomKey];
+  return randomKyeValue
+}
+
+const pluralize = (count, variants) => {
+  count = Math.abs(count) % 100;
+  const count2 = count % 10;
+  if (count > 10 && count < 20)
+    return variants[2];
+  if (count2 > 1 && count2 < 5)
+    return variants[1];
+  if (count2 === 1)
+    return variants[0];
+
+  return variants[2];
+};
+
 export {
   getRandomBetween,
   getRandomFloat,
   getRandomArrayElement,
-  getRandomArrayWithUniqueElements
+  getRandomArrayWithUniqueElements,
+  getRandomObjectValue,
+  pluralize
 };
