@@ -32,7 +32,7 @@ const DESCRIPTIONS = [
 const ADS_NUMBER = 10;
 
 const HOUSE_TYPES = {
-  bungalo: 'Бунгало',
+  bungalow: 'Бунгало',
   flat: 'Квартира',
   house: 'Дом',
   palace: 'Дворец',

@@ -50,7 +50,7 @@ const createPopup = (popupData) => {
   const popupFeatures = popup.querySelector('.popup__features');
 
   if (popupData.author.avatar) {
-    popup.querySelector('.popup__avatar').src = popupData.author.avatar;
+    popup.querySelector('.popup__avatar').setAttribute('src', popupData.author.avatar);
     popup.querySelector('.popup__avatar').style.width = PopupAvatarsSizes.WIDTH + 'px';
     popup.querySelector('.popup__avatar').style.height = PopupAvatarsSizes.HEIGHT + 'px';
   }
