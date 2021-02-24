@@ -60,7 +60,7 @@ const getRandomArrayWithUniqueElements = (array, n) => {
 }
 
 const getRandomObjectValue = (object) => {
-  const randomKey = getRandomArrayElement(Object.keys(object))
+  const randomKey = getRandomArrayElement(Object.keys(object));
   const randomKyeValue = object[randomKey];
   return randomKyeValue
 }
