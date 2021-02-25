@@ -4,7 +4,7 @@ const formInputPrice = adForm.querySelector('#price');
 const formInputCheckIn = adForm.querySelector('#timein');
 const formInputCheckOut = adForm.querySelector('#timeout');
 
-const MinPrices = {
+const MIN_PRICES = {
   bungalow: 0,
   flat: 1000,
   house: 5000,
@@ -20,7 +20,7 @@ formInputCheckOut.addEventListener('change', () => {
 });
 
 formInputType.addEventListener('change', () => {
-  formInputPrice.placeholder = MinPrices[formInputType.value];
-  formInputPrice.min = MinPrices[formInputType.value];
+  formInputPrice.placeholder = MIN_PRICES[formInputType.value];
+  formInputPrice.min = MIN_PRICES[formInputType.value];
 });
 
