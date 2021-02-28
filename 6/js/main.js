@@ -5,5 +5,8 @@ import {createPopup, placePopup} from './popup.js';
 // eslint-disable-next-line
 placePopup(createPopup(createAdSet(ADS_NUMBER)[0]));
 // eslint-disable-next-line
-import './form.js';
+import {equalizeCheckInTime, equalizeCheckOutTime, setMinPrices} from './form.js';
+equalizeCheckInTime();
+equalizeCheckOutTime();
+setMinPrices();
 

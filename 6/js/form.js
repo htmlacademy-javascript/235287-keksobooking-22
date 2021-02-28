@@ -1,9 +1,3 @@
-const adForm = document.querySelector('.ad-form');
-const formInputType = adForm.querySelector('#type');
-const formInputPrice = adForm.querySelector('#price');
-const formInputCheckIn = adForm.querySelector('#timein');
-const formInputCheckOut = adForm.querySelector('#timeout');
-
 const MIN_PRICES = {
   bungalow: 0,
   flat: 1000,
@@ -11,16 +5,29 @@ const MIN_PRICES = {
   palace: 10000,
 }
 
-formInputCheckIn.addEventListener('change', () => {
-  formInputCheckOut.value = formInputCheckIn.value
-});
+const adForm = document.querySelector('.ad-form');
+const formInputType = adForm.querySelector('#type');
+const formInputPrice = adForm.querySelector('#price');
+const formInputCheckIn = adForm.querySelector('#timein');
+const formInputCheckOut = adForm.querySelector('#timeout');
 
-formInputCheckOut.addEventListener('change', () => {
-  formInputCheckIn.value = formInputCheckOut.value
-});
+const equalizeCheckInTime = () => {
+  formInputCheckIn.addEventListener('change', () => {
+    formInputCheckOut.value = formInputCheckIn.value
+  });
+}
 
-formInputType.addEventListener('change', () => {
-  formInputPrice.placeholder = MIN_PRICES[formInputType.value];
-  formInputPrice.min = MIN_PRICES[formInputType.value];
-});
+const equalizeCheckOutTime = () => {
+  formInputCheckOut.addEventListener('change', () => {
+    formInputCheckIn.value = formInputCheckOut.value
+  });
+}
 
+const setMinPrices = () => {
+  formInputType.addEventListener('change', () => {
+    formInputPrice.placeholder = MIN_PRICES[formInputType.value];
+    formInputPrice.min = MIN_PRICES[formInputType.value];
+  });
+}
+
+export {equalizeCheckInTime, equalizeCheckOutTime, setMinPrices}
