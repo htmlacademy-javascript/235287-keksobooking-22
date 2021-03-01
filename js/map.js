@@ -1,4 +1,5 @@
 import {activateForm, activateFilter, formInputAdress} from './form.js'
+import {ads} from './data.js'
 
 const DIGIT_AFTER_POINT = 5
 
@@ -49,3 +50,24 @@ mainMarker.on('moveend', (evt) => {
 });
 
 mainMarker.addTo(map);
+
+ads.forEach((ad) => {
+
+  const adIcon = L.icon({
+    iconUrl: './img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
+
+  const adMarker = L.marker(
+    {
+      lat: ad.location.x,
+      lng: ad.location.y
+    },
+    {
+      icon: adIcon
+    }
+  );
+
+  adMarker.addTo(map);
+});
