@@ -61,14 +61,13 @@ const getRandomArrayWithUniqueElements = (array, n) => {
 
 const getRandomObjectValue = (object) => {
   const randomKey = getRandomArrayElement(Object.keys(object));
-  const randomKyeValue = object[randomKey];
-  return randomKyeValue
+  return object[randomKey];
 }
 
 const pluralize = (count, variants) => {
-  count = Math.abs(count) % 100;
+  const countAbs =  Math.abs(count) % 100;
   const count2 = count % 10;
-  if (count > 10 && count < 20)
+  if (countAbs > 10 && countAbs < 20)
     return variants[2];
   if (count2 > 1 && count2 < 5)
     return variants[1];

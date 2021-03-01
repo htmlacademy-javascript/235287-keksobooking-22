@@ -3,17 +3,9 @@ import {ADS_NUMBER, createAdSet, createAd} from './data.js';
 // eslint-disable-next-line
 import {getRandomBetween, getRandomFloat, getRandomArrayElement, getRandomArrayWithUniqueElements, getRandomObjectValue, pluralize} from './util.js';
 
-const ROOMS_VARIANTS = [
-  'комната',
-  'комнаты',
-  'комнат',
-];
+const ROOMS_VARIANTS = ['комната', 'комнаты', 'комнат'];
 
-const GUESTS_VARIANTS = [
-  'гостя',
-  'гостей',
-  'гостей',
-];
+const GUESTS_VARIANTS = ['гостя', 'гостей', 'гостей'];
 
 const POPUP_TEMPLATE = document.querySelector('#card').content.querySelector('.popup');
 
@@ -25,28 +17,31 @@ const PopupAvatarsSizes = {
 const createPhotosListForPopup = (popupData, template) => {
   const popupPhotos = template.querySelector('.popup__photos');
   const popupPhoto = template.querySelector('.popup__photo');
+  const fragment = document.createDocumentFragment();
   popupPhotos.textContent = '';
   popupData.offer.photos.forEach((photo, i) => {
     const popupPhotoTemplate = popupPhoto.cloneNode(true)
     popupPhotoTemplate.setAttribute('src', popupData.offer.photos[i]);
-    popupPhotos.appendChild(popupPhotoTemplate);
+    fragment.appendChild(popupPhotoTemplate);
   })
 
-  return popupPhotos
+  return fragment
 };
 
 const createFeatureListForPopup = (popupData, template) => {
 
   const popupFeatures = template.querySelector('.popup__features');
   const popupFeature = template.querySelector('.popup__feature');
-
+  const fragment = document.createDocumentFragment();
   popupFeatures.textContent = '';
 
   popupData.offer.features.forEach((feature, i) => {
     const popupFeatureTemplate = popupFeature.cloneNode(true);
     popupFeatureTemplate.classList.add('popup__feature', `popup__feature--${popupData.offer.features[i]}`);
-    popupFeatures.appendChild(popupFeatureTemplate);
+    fragment.appendChild(popupFeatureTemplate);
   })
+
+  return fragment
 };
 
 const createPopup = (popupData) => {
@@ -55,7 +50,7 @@ const createPopup = (popupData) => {
   const popupFeatures = popup.querySelector('.popup__features');
 
   if (popupData.author.avatar) {
-    popup.querySelector('.popup__avatar').src = popupData.author.avatar;
+    popup.querySelector('.popup__avatar').setAttribute('src', popupData.author.avatar);
     popup.querySelector('.popup__avatar').style.width = PopupAvatarsSizes.WIDTH + 'px';
     popup.querySelector('.popup__avatar').style.height = PopupAvatarsSizes.HEIGHT + 'px';
   }
@@ -103,13 +98,13 @@ const createPopup = (popupData) => {
   }
 
   if (popupData.offer.photos) {
-    createPhotosListForPopup(popupData, popup);
+    popupPhotos.append(createPhotosListForPopup(popupData, popup));
   } else {
     popupPhotos.remove();
   }
 
   if (popupData.offer.features) {
-    createFeatureListForPopup(popupData, popup);
+    popupFeatures.append(createFeatureListForPopup(popupData, popup));
   } else {
     popupFeatures.remove();
   }
@@ -119,6 +114,7 @@ const createPopup = (popupData) => {
 
 const placePopup = (popup) => {
   const popupList = document.querySelector('#map-canvas');
+
   popupList.appendChild(popup);
 }
 
