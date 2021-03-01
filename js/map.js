@@ -1,5 +1,7 @@
 import {activateForm, activateFilter, formInputAdress} from './form.js'
-import {ads} from './data.js'
+import {ads} from './data.js';
+
+import {createPopup} from './popup.js'
 
 const DIGIT_AFTER_POINT = 5
 
@@ -70,4 +72,8 @@ ads.forEach((ad) => {
   );
 
   adMarker.addTo(map);
+  adMarker.bindPopup(createPopup(ad), {
+      keepInView: true,
+    },
+  );
 });
