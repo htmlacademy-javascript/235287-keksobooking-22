@@ -1,9 +1,13 @@
-import {activateForm, activateFilter} from './form.js'
+import {activateForm, activateFilter, formInputAdress} from './form.js'
+
+const DIGIT_AFTER_POINT = 5
 
 const tokioCenterCoordinates = {
   LAT: 35.6895,
   LNG: 139.69171
 };
+
+formInputAdress.value = `${tokioCenterCoordinates.LAT}, ${tokioCenterCoordinates.LNG}`;
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -21,3 +25,27 @@ L.tileLayer (
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
 ).addTo(map);
+
+const mainPinIcon = L.icon({
+  iconUrl: './img/main-pin.svg',
+  iconSize: [50, 50],
+  iconAnchor: [25, 50],
+});
+
+const mainMarker = L.marker(
+  {
+    lat: `${tokioCenterCoordinates.LAT}`,
+    lng: `${tokioCenterCoordinates.LNG}`,
+  },
+  {
+    draggable: true,
+    icon: mainPinIcon,
+  }
+);
+
+mainMarker.on('moveend', (evt) => {
+  let currentMainMarkerCoordinates = evt.target.getLatLng()
+  formInputAdress.value = `${currentMainMarkerCoordinates.lat.toFixed(DIGIT_AFTER_POINT)}, ${currentMainMarkerCoordinates.lng.toFixed(DIGIT_AFTER_POINT)}`
+});
+
+mainMarker.addTo(map);

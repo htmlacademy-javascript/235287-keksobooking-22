@@ -14,6 +14,7 @@ const formInputType = adForm.querySelector('#type');
 const formInputPrice = adForm.querySelector('#price');
 const formInputCheckIn = adForm.querySelector('#timein');
 const formInputCheckOut = adForm.querySelector('#timeout');
+const formInputAdress = adForm.querySelector('#address');
 
 const deactivateForm = () => {
   formInteractiveElements.forEach((formElement) => {
@@ -73,4 +74,6 @@ export {
   deactivateFilter,
   deactivateForm,
   activateForm,
-  activateFilter}
+  activateFilter,
+  formInputAdress
+}
