@@ -112,13 +112,6 @@ const createPopup = (popupData) => {
   return popup
 }
 
-const placePopup = (popup) => {
-  const popupList = document.querySelector('#map-canvas');
-
-  popupList.appendChild(popup);
-}
-
 export {
-  createPopup,
-  placePopup
+  createPopup
 }
