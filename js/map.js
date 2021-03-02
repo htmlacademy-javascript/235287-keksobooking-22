@@ -5,28 +5,28 @@ import {ads} from './data.js';
 import {createPopup} from './popup.js'
 
 const DIGIT_AFTER_POINT = 5
-
+// eslint-disable-next-line
 const map = L.map('map-canvas')
 
 const tokioCenterCoordinates = {
   LAT: 35.6895,
-  LNG: 139.69171
+  LNG: 139.69171,
 };
 
 formInputAdress.value = `${tokioCenterCoordinates.LAT}, ${tokioCenterCoordinates.LNG}`;
 
 const loadMap = () => {
   map.on('load', () => {
-      activateForm();
-      activateFilter();
-    })
-  .setView ({
+    activateForm();
+    activateFilter();
+  }).setView ({
     lat: `${tokioCenterCoordinates.LAT}`,
     lng: `${tokioCenterCoordinates.LNG}`,
   }, 10);
 };
 
 const loadTile = () => {
+  // eslint-disable-next-line
   L.tileLayer (
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
@@ -36,12 +36,13 @@ const loadTile = () => {
 };
 
 const createMainIcon = () => {
+  // eslint-disable-next-line
   const mainPinIcon = L.icon({
     iconUrl: './img/main-pin.svg',
     iconSize: [50, 50],
     iconAnchor: [25, 50],
   });
-
+  // eslint-disable-next-line
   const mainMarker = L.marker(
     {
       lat: `${tokioCenterCoordinates.LAT}`,
@@ -50,7 +51,7 @@ const createMainIcon = () => {
     {
       draggable: true,
       icon: mainPinIcon,
-    }
+    },
   );
 
   mainMarker.on('moveend', (evt) => {
@@ -61,35 +62,33 @@ const createMainIcon = () => {
   mainMarker.addTo(map);
 };
 
-
 const createIcons = () => {
   ads.forEach((ad) => {
+    // eslint-disable-next-line
+    const icon = L.icon({
+      iconUrl: './img/pin.svg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
+    // eslint-disable-next-line
+    const adMarker = L.marker(
+      {
+        lat: ad.location.x,
+        lng: ad.location.y,
+      },
+      {
+        icon: icon,
+      },
+    );
 
-  const icon = L.icon({
-    iconUrl: './img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
-
-  const adMarker = L.marker(
-    {
-      lat: ad.location.x,
-      lng: ad.location.y,
-    },
-    {
-      icon: icon
-    }
-  );
-
-  adMarker.addTo(map);
-  adMarker.bindPopup(createPopup(ad), {
+    adMarker.addTo(map);
+    adMarker.bindPopup(createPopup(ad),
+      {
         keepInView: true,
       },
     );
   });
 }
-
-
 
 const createMap = () => {
   loadMap();
