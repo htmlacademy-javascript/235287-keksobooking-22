@@ -74,7 +74,7 @@ const createMainIcon = () => {
     },
   );
 
-  mainMarker.on('moveend', (evt) => {
+  mainMarker.on('move', (evt) => {
     let currentMainMarkerCoordinates = evt.target.getLatLng()
     formInputAdress.value = `${currentMainMarkerCoordinates.lat.toFixed(DIGIT_AFTER_POINT)}, ${currentMainMarkerCoordinates.lng.toFixed(DIGIT_AFTER_POINT)}`
   });
