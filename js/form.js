@@ -79,7 +79,7 @@ const validateTitleLength = () => {
     formInputTitle.setCustomValidity('Удалите лишние ' + (valueLength - MAX_TITLE_LENGTH) +' симв.');
   } else {
     formInputTitle.setCustomValidity('');
-  };
+  }
 
   formInputTitle.reportValidity();
 }
@@ -91,7 +91,7 @@ const validateMaxPrice = () => {
     formInputPrice.setCustomValidity('Максимальная цена за ночь: ' + MAX_PRICE_VALUE)
   } else {
     formInputPrice.setCustomValidity('');
-  };
+  }
 
   formInputTitle.reportValidity();
 }
@@ -132,7 +132,7 @@ const validateRoomsAndGuests = (evt) => {
       formInputCapacity.options[2].disabled = false;
       formInputCapacity.options[3].disabled = false;
       formInputCapacity.options[2].selected = true;
-  };
+  }
 }
 
 const setEventListenerToFormInputCheckOut = () => {
