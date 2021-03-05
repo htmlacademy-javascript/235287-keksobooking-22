@@ -6,22 +6,42 @@ import {createPopup} from './popup.js'
 
 const DIGIT_AFTER_POINT = 5
 // eslint-disable-next-line
-const map = L.map('map-canvas')
+const MAP = L.map('map-canvas');
 
-const tokioCenterCoordinates = {
-  LAT: 35.6895,
-  LNG: 139.69171,
+const MAIN_PIN_ICON_SIZES = {
+  width: 50,
+  height: 50,
 };
 
-formInputAdress.value = `${tokioCenterCoordinates.LAT}, ${tokioCenterCoordinates.LNG}`;
+const MAIN_PIN_ICON_ANCHOR_SIZES = {
+  width: 25,
+  height: 50,
+};
+
+const COMMON_PIN_ICON_SIZES = {
+  width: 40,
+  height: 40,
+};
+
+const COMMON_PIN_ICON_ANCHOR_SIZES = {
+  width: 20,
+  height: 40,
+};
+
+const TOKIO_CENTER_COORDINATES = {
+  lat: 35.6895,
+  lng: 139.69171,
+};
+
+formInputAdress.value = `${TOKIO_CENTER_COORDINATES.lat}, ${TOKIO_CENTER_COORDINATES.lng}`;
 
 const loadMap = () => {
-  map.on('load', () => {
+  MAP.on('load', () => {
     activateForm();
     activateFilter();
   }).setView ({
-    lat: `${tokioCenterCoordinates.LAT}`,
-    lng: `${tokioCenterCoordinates.LNG}`,
+    lat: `${TOKIO_CENTER_COORDINATES.lat}`,
+    lng: `${TOKIO_CENTER_COORDINATES.lng}`,
   }, 10);
 };
 
@@ -32,21 +52,21 @@ const loadTile = () => {
     {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     },
-  ).addTo(map);
+  ).addTo(MAP);
 };
 
 const createMainIcon = () => {
   // eslint-disable-next-line
   const mainPinIcon = L.icon({
     iconUrl: './img/main-pin.svg',
-    iconSize: [50, 50],
-    iconAnchor: [25, 50],
+    iconSize: [MAIN_PIN_ICON_SIZES.width, MAIN_PIN_ICON_SIZES.height],
+    iconAnchor: [MAIN_PIN_ICON_ANCHOR_SIZES.width, MAIN_PIN_ICON_ANCHOR_SIZES.height],
   });
   // eslint-disable-next-line
   const mainMarker = L.marker(
     {
-      lat: `${tokioCenterCoordinates.LAT}`,
-      lng: `${tokioCenterCoordinates.LNG}`,
+      lat: `${TOKIO_CENTER_COORDINATES.lat}`,
+      lng: `${TOKIO_CENTER_COORDINATES.lng}`,
     },
     {
       draggable: true,
@@ -59,7 +79,7 @@ const createMainIcon = () => {
     formInputAdress.value = `${currentMainMarkerCoordinates.lat.toFixed(DIGIT_AFTER_POINT)}, ${currentMainMarkerCoordinates.lng.toFixed(DIGIT_AFTER_POINT)}`
   });
 
-  mainMarker.addTo(map);
+  mainMarker.addTo(MAP);
 };
 
 const createIcons = () => {
@@ -67,8 +87,8 @@ const createIcons = () => {
     // eslint-disable-next-line
     const icon = L.icon({
       iconUrl: './img/pin.svg',
-      iconSize: [40, 40],
-      iconAnchor: [20, 40],
+      iconSize: [COMMON_PIN_ICON_SIZES.width, COMMON_PIN_ICON_SIZES.height],
+      iconAnchor: [COMMON_PIN_ICON_ANCHOR_SIZES.width, COMMON_PIN_ICON_ANCHOR_SIZES.height],
     });
     // eslint-disable-next-line
     const adMarker = L.marker(
@@ -81,7 +101,7 @@ const createIcons = () => {
       },
     );
 
-    adMarker.addTo(map);
+    adMarker.addTo(MAP);
     adMarker.bindPopup(createPopup(ad),
       {
         keepInView: true,
