@@ -65,7 +65,7 @@ const validateCheckOutTime = () => {
   formInputCheckIn.value = formInputCheckOut.value
 }
 
-const validateMinPrices = () => {
+const setMinPrices = () => {
   formInputPrice.placeholder = MIN_PRICES[formInputType.value];
   formInputPrice.min = MIN_PRICES[formInputType.value];
 }
@@ -85,6 +85,7 @@ const validateTitleLength = () => {
 }
 
 const validateMaxPrice = () => {
+
   const inputValue = formInputPrice.value;
 
   if (inputValue > MAX_PRICE_VALUE) {
@@ -93,7 +94,18 @@ const validateMaxPrice = () => {
     formInputPrice.setCustomValidity('');
   }
 
-  formInputTitle.reportValidity();
+  formInputPrice.reportValidity();
+}
+
+const validateMinPrice = () => {
+  const inputValue = formInputPrice.value;
+  if (inputValue < formInputPrice.min.value) {
+    formInputPrice.setCustomValidity('Минимальная цена за ночь: ' + formInputPrice.min.value)
+  } else {
+    formInputPrice.setCustomValidity('');
+  }
+
+  formInputPrice.reportValidity();
 }
 
 const MAX_ROOMS_COUNT = 100;
@@ -126,49 +138,19 @@ const validateRoomsAndGuests = (evt) => {
   }
 }
 
-const setEventListenerToFormInputCheckOut = () => {
-  formInputCheckOut.addEventListener('change', () => {
-    validateCheckOutTime();
-  });
-}
-
-const setEventListenerToFormInputCheckIn = () => {
-  formInputCheckIn.addEventListener('change', () => {
-    validateCheckInTime();
-  });
-}
-
-const setEventListenerToFormInputType = () => {
-  formInputType.addEventListener('change', () => {
-    validateMinPrices();
-  });
-}
-
-const setEventListenerToFormInputTitle = () => {
-  formInputTitle.addEventListener('input', () => {
-    validateTitleLength();
-  });
-}
-
-const setEventListenerToFormInputPrice = () => {
-  formInputPrice.addEventListener('input', () => {
-    validateMaxPrice();
-  });
-}
-
-const setEventListenerToFormInputRoomNumber = () => {
+const addEventListenersToForm = () => {
+  formInputCheckOut.addEventListener('change', validateCheckOutTime);
+  formInputCheckIn.addEventListener('change', validateCheckInTime);
+  formInputType.addEventListener('change', setMinPrices);
+  formInputTitle.addEventListener('input', validateTitleLength);
   formInputRoomNumber.addEventListener('change', (evt) => {
     validateRoomsAndGuests(evt);
   });
-}
 
-const addEventListenersToForm = () => {
-  setEventListenerToFormInputCheckOut();
-  setEventListenerToFormInputCheckIn();
-  setEventListenerToFormInputType();
-  setEventListenerToFormInputTitle();
-  setEventListenerToFormInputPrice();
-  setEventListenerToFormInputRoomNumber();
+  formInputPrice.addEventListener('input', () => {
+    validateMaxPrice();
+    validateMinPrice();
+  });
 }
 
 export {
