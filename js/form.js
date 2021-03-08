@@ -96,42 +96,33 @@ const validateMaxPrice = () => {
   formInputTitle.reportValidity();
 }
 
+const MAX_ROOMS_COUNT = 100;
+
+const formInputCapacityOptions = adForm.querySelectorAll('#capacity option');
+
 const validateRoomsAndGuests = (evt) => {
-  switch (evt.target.value) {
-    case '1':
-      formInputCapacity.options[0].disabled = true;
-      formInputCapacity.options[1].disabled = true;
-      formInputCapacity.options[2].disabled = false;
-      formInputCapacity.options[3].disabled = true;
-      formInputCapacity.options[2].selected = true;
-      break;
-    case '2':
-      formInputCapacity.options[0].disabled = true;
-      formInputCapacity.options[1].disabled = false;
-      formInputCapacity.options[2].disabled = false;
-      formInputCapacity.options[3].disabled = true;
-      formInputCapacity.options[2].selected = true;
-      break;
-    case '3':
-      formInputCapacity.options[0].disabled = false;
-      formInputCapacity.options[1].disabled = false;
-      formInputCapacity.options[2].disabled = false;
-      formInputCapacity.options[3].disabled = true;
-      formInputCapacity.options[2].selected = true;
-      break;
-    case '100':
-      formInputCapacity.options[0].disabled = true;
-      formInputCapacity.options[1].disabled = true;
-      formInputCapacity.options[2].disabled = true;
-      formInputCapacity.options[3].disabled = false;
-      formInputCapacity.options[3].selected = true;
-      break;
-    default:
-      formInputCapacity.options[0].disabled = false;
-      formInputCapacity.options[1].disabled = false;
-      formInputCapacity.options[2].disabled = false;
-      formInputCapacity.options[3].disabled = false;
-      formInputCapacity.options[2].selected = true;
+  const roomsCount = Number(evt.target.value);
+  if (roomsCount === MAX_ROOMS_COUNT) {
+    formInputCapacityOptions.forEach((option) => {
+      option.disabled = true;
+    })
+
+    formInputCapacityOptions[formInputCapacityOptions.length - 1].disabled = false;
+    formInputCapacityOptions[formInputCapacityOptions.length - 1].selected = true;
+  } else {
+    formInputCapacityOptions.forEach((option) => {
+      option.disabled = false;
+    })
+
+    formInputCapacityOptions[formInputCapacityOptions.length - 1].disabled = true;
+
+    formInputCapacityOptions.forEach((option) => {
+      if(roomsCount < option.value) {
+        option.disabled = true;
+      }
+    })
+
+    formInputCapacity.value = roomsCount
   }
 }
 
