@@ -56,12 +56,12 @@ const activateFilter = () => {
   mapFilter.classList.remove('map__filters--disabled')
 }
 
-const validateCheckInTime = () => {
+const setCheckInTime = () => {
   formInputCheckOut.value = formInputCheckIn.value
 };
 
 
-const validateCheckOutTime = () => {
+const setCheckOutTime = () => {
   formInputCheckIn.value = formInputCheckOut.value
 }
 
@@ -139,8 +139,8 @@ const validateRoomsAndGuests = (evt) => {
 }
 
 const addEventListenersToForm = () => {
-  formInputCheckOut.addEventListener('change', validateCheckOutTime);
-  formInputCheckIn.addEventListener('change', validateCheckInTime);
+  formInputCheckOut.addEventListener('change', setCheckOutTime);
+  formInputCheckIn.addEventListener('change', setCheckInTime);
   formInputType.addEventListener('change', setMinPrices);
   formInputTitle.addEventListener('input', validateTitleLength);
   formInputRoomNumber.addEventListener('change', (evt) => {
