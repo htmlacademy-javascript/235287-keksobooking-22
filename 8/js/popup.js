@@ -1,14 +1,8 @@
-// eslint-disable-next-line
-import {ADS_NUMBER, createAdSet, createAd} from './data.js';
-// eslint-disable-next-line
-import {getRandomBetween, getRandomFloat, getRandomArrayElement, getRandomArrayWithUniqueElements, getRandomObjectValue, pluralize} from './util.js';
+import {pluralize} from './util.js';
 
 const ROOMS_VARIANTS = ['комната', 'комнаты', 'комнат'];
-
 const GUESTS_VARIANTS = ['гостя', 'гостей', 'гостей'];
-
 const POPUP_TEMPLATE = document.querySelector('#card').content.querySelector('.popup');
-
 const PopupAvatarsSizes = {
   WIDTH: 70,
   HEIGHT: 70,
@@ -18,12 +12,16 @@ const createPhotosListForPopup = (popupData, template) => {
   const popupPhotos = template.querySelector('.popup__photos');
   const popupPhoto = template.querySelector('.popup__photo');
   const fragment = document.createDocumentFragment();
-  popupPhotos.textContent = '';
-  popupData.offer.photos.forEach((photo, i) => {
+
+  const fillPhotos = (photo, i) => {
     const popupPhotoTemplate = popupPhoto.cloneNode(true)
+
     popupPhotoTemplate.setAttribute('src', popupData.offer.photos[i]);
     fragment.appendChild(popupPhotoTemplate);
-  })
+  }
+
+  popupPhotos.textContent = '';
+  popupData.offer.photos.forEach(fillPhotos)
 
   return fragment
 };
@@ -33,13 +31,16 @@ const createFeatureListForPopup = (popupData, template) => {
   const popupFeatures = template.querySelector('.popup__features');
   const popupFeature = template.querySelector('.popup__feature');
   const fragment = document.createDocumentFragment();
-  popupFeatures.textContent = '';
 
-  popupData.offer.features.forEach((feature, i) => {
+  const fillFeatures = (feature, i) => {
     const popupFeatureTemplate = popupFeature.cloneNode(true);
+
     popupFeatureTemplate.classList.add('popup__feature', `popup__feature--${popupData.offer.features[i]}`);
     fragment.appendChild(popupFeatureTemplate);
-  })
+  }
+
+  popupFeatures.textContent = '';
+  popupData.offer.features.forEach(fillFeatures)
 
   return fragment
 };

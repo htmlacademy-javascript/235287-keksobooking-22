@@ -9,6 +9,8 @@ const MIN_PRICES = {
   palace: 10000,
 }
 
+const DIGIT_AFTER_POINT = 5
+
 const adForm = document.querySelector('.ad-form');
 const mapFilter = document.querySelector('.map__filters');
 const formInteractiveElements = adForm.querySelectorAll('input, select');
@@ -23,15 +25,6 @@ const formInputTitle = adForm.querySelector('#title');
 const formInputRoomNumber = adForm.querySelector('#room_number');
 const formInputCapacity = adForm.querySelector('#capacity');
 
-
-const deactivateForm = () => {
-  formInteractiveElements.forEach((formElement) => {
-    formElement.disabled = true;
-  });
-
-  adForm.classList.add('ad-form--disabled')
-}
-
 const deactivateFilter = () => {
   filterInteractiveElements.forEach((filterElement) => {
     filterElement.disabled = true;
@@ -40,12 +33,13 @@ const deactivateFilter = () => {
   mapFilter.classList.add('map__filters--disabled')
 }
 
-const activateForm = () => {
+const deactivateForm = () => {
   formInteractiveElements.forEach((formElement) => {
-    formElement.disabled = false;
+    formElement.disabled = true;
   });
 
-  adForm.classList.remove('ad-form--disabled')
+  adForm.classList.add('ad-form--disabled')
+  deactivateFilter();
 }
 
 const activateFilter = () => {
@@ -56,16 +50,26 @@ const activateFilter = () => {
   mapFilter.classList.remove('map__filters--disabled')
 }
 
-const validateCheckInTime = () => {
+const activateForm = () => {
+  formInteractiveElements.forEach((formElement) => {
+    formElement.disabled = false;
+  });
+
+  adForm.classList.remove('ad-form--disabled')
+  activateFilter();
+}
+
+
+const setCheckInTime = () => {
   formInputCheckOut.value = formInputCheckIn.value
 };
 
 
-const validateCheckOutTime = () => {
+const setCheckOutTime = () => {
   formInputCheckIn.value = formInputCheckOut.value
 }
 
-const validateMinPrices = () => {
+const setMinPrices = () => {
   formInputPrice.placeholder = MIN_PRICES[formInputType.value];
   formInputPrice.min = MIN_PRICES[formInputType.value];
 }
@@ -85,6 +89,7 @@ const validateTitleLength = () => {
 }
 
 const validateMaxPrice = () => {
+
   const inputValue = formInputPrice.value;
 
   if (inputValue > MAX_PRICE_VALUE) {
@@ -93,98 +98,73 @@ const validateMaxPrice = () => {
     formInputPrice.setCustomValidity('');
   }
 
-  formInputTitle.reportValidity();
+  formInputPrice.reportValidity();
 }
 
+const validateMinPrice = () => {
+  const inputValue = formInputPrice.value;
+  if (inputValue < formInputPrice.min.value) {
+    formInputPrice.setCustomValidity('Минимальная цена за ночь: ' + formInputPrice.min.value)
+  } else {
+    formInputPrice.setCustomValidity('');
+  }
+
+  formInputPrice.reportValidity();
+}
+
+const MAX_ROOMS_COUNT = 100;
+
+const formInputCapacityOptions = adForm.querySelectorAll('#capacity option');
+
 const validateRoomsAndGuests = (evt) => {
-  switch (evt.target.value) {
-    case '1':
-      formInputCapacity.options[0].disabled = true;
-      formInputCapacity.options[1].disabled = true;
-      formInputCapacity.options[2].disabled = false;
-      formInputCapacity.options[3].disabled = true;
-      formInputCapacity.options[2].selected = true;
-      break;
-    case '2':
-      formInputCapacity.options[0].disabled = true;
-      formInputCapacity.options[1].disabled = false;
-      formInputCapacity.options[2].disabled = false;
-      formInputCapacity.options[3].disabled = true;
-      formInputCapacity.options[2].selected = true;
-      break;
-    case '3':
-      formInputCapacity.options[0].disabled = false;
-      formInputCapacity.options[1].disabled = false;
-      formInputCapacity.options[2].disabled = false;
-      formInputCapacity.options[3].disabled = true;
-      formInputCapacity.options[2].selected = true;
-      break;
-    case '100':
-      formInputCapacity.options[0].disabled = true;
-      formInputCapacity.options[1].disabled = true;
-      formInputCapacity.options[2].disabled = true;
-      formInputCapacity.options[3].disabled = false;
-      formInputCapacity.options[3].selected = true;
-      break;
-    default:
-      formInputCapacity.options[0].disabled = false;
-      formInputCapacity.options[1].disabled = false;
-      formInputCapacity.options[2].disabled = false;
-      formInputCapacity.options[3].disabled = false;
-      formInputCapacity.options[2].selected = true;
+  const roomsCount = Number(evt.target.value);
+  if (roomsCount === MAX_ROOMS_COUNT) {
+    formInputCapacityOptions.forEach((option) => {
+      option.disabled = true;
+    })
+
+    formInputCapacityOptions[formInputCapacityOptions.length - 1].disabled = false;
+    formInputCapacityOptions[formInputCapacityOptions.length - 1].selected = true;
+  } else {
+    formInputCapacityOptions.forEach((option) => {
+      option.disabled = false;
+    })
+
+    formInputCapacityOptions[formInputCapacityOptions.length - 1].disabled = true;
+
+    formInputCapacityOptions.forEach((option) => {
+      if(roomsCount < option.value) {
+        option.disabled = true;
+      }
+    })
+
+    formInputCapacity.value = roomsCount
   }
 }
 
-const setEventListenerToFormInputCheckOut = () => {
-  formInputCheckOut.addEventListener('change', () => {
-    validateCheckOutTime();
-  });
-}
-
-const setEventListenerToFormInputCheckIn = () => {
-  formInputCheckIn.addEventListener('change', () => {
-    validateCheckInTime();
-  });
-}
-
-const setEventListenerToFormInputType = () => {
-  formInputType.addEventListener('change', () => {
-    validateMinPrices();
-  });
-}
-
-const setEventListenerToFormInputTitle = () => {
-  formInputTitle.addEventListener('input', () => {
-    validateTitleLength();
-  });
-}
-
-const setEventListenerToFormInputPrice = () => {
-  formInputPrice.addEventListener('input', () => {
-    validateMaxPrice();
-  });
-}
-
-const setEventListenerToFormInputRoomNumber = () => {
+const addEventListenersToForm = () => {
+  formInputCheckOut.addEventListener('change', setCheckOutTime);
+  formInputCheckIn.addEventListener('change', setCheckInTime);
+  formInputType.addEventListener('change', setMinPrices);
+  formInputTitle.addEventListener('input', validateTitleLength);
   formInputRoomNumber.addEventListener('change', (evt) => {
     validateRoomsAndGuests(evt);
   });
+
+  formInputPrice.addEventListener('input', () => {
+    validateMaxPrice();
+    validateMinPrice();
+  });
 }
 
-const addEventListenersToForm = () => {
-  setEventListenerToFormInputCheckOut();
-  setEventListenerToFormInputCheckIn();
-  setEventListenerToFormInputType();
-  setEventListenerToFormInputTitle();
-  setEventListenerToFormInputPrice();
-  setEventListenerToFormInputRoomNumber();
+const setMarkerCoordinates = (coords) => {
+  formInputAdress.value = `${coords.lat.toFixed(DIGIT_AFTER_POINT)}, ${coords.lng.toFixed(DIGIT_AFTER_POINT)}`
 }
 
 export {
   addEventListenersToForm,
-  deactivateFilter,
   deactivateForm,
   activateForm,
-  activateFilter,
-  formInputAdress
+  formInputAdress,
+  setMarkerCoordinates
 }

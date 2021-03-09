@@ -118,11 +118,11 @@ const createAdSet = (ADS_NUMBER) => {
 }
 
 // eslint-disable-next-line
-const ads = createAdSet(ADS_NUMBER);
+// const ads = createAdSet(ADS_NUMBER);
 
 export {
-  ads,
+  // ads,
   createAdSet,
-  createAd,
+  // createAd,
   ADS_NUMBER
 };
