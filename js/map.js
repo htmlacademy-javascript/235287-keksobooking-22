@@ -1,10 +1,3 @@
-import {activateForm, activateFilter, formInputAdress} from './form.js'
-
-import {ads} from './data.js';
-
-import {createPopup} from './popup.js'
-
-const DIGIT_AFTER_POINT = 5
 // eslint-disable-next-line
 const MAP = L.map('map-canvas');
 const OPENSTREETMAP_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
@@ -37,15 +30,15 @@ const TOKIO_CENTER_COORDINATES = {
 
 const Icons = {
   MAIN: './img/main-pin.svg',
-  COMMON: './img/pin.svg'
+  COMMON: './img/pin.svg',
 }
-
+// eslint-disable-next-line
 const MAIN_MAP_ICON = L.icon({
   iconUrl: Icons.MAIN,
   iconSize: [MAIN_PIN_ICON_SIZES.width, MAIN_PIN_ICON_SIZES.height],
   iconAnchor: [MAIN_PIN_ICON_ANCHOR_SIZES.width, MAIN_PIN_ICON_ANCHOR_SIZES.height],
 });
-
+// eslint-disable-next-line
 const MAIN_MAP_MARKER = L.marker(
   {
     lat: `${TOKIO_CENTER_COORDINATES.lat}`,
@@ -57,16 +50,11 @@ const MAIN_MAP_MARKER = L.marker(
   },
 );
 
-formInputAdress.value = `${TOKIO_CENTER_COORDINATES.lat}, ${TOKIO_CENTER_COORDINATES.lng}`;
+// formInputAdress.value = `${TOKIO_CENTER_COORDINATES.lat}, ${TOKIO_CENTER_COORDINATES.lng}`;
 
-const loadMap = () => {
-  MAP.on('load', () => {
-    activateForm();
-    activateFilter();
-  }).setView ({
-    lat: `${TOKIO_CENTER_COORDINATES.lat}`,
-    lng: `${TOKIO_CENTER_COORDINATES.lng}`,
-  }, 10);
+const loadMap = (onLoad, onMainPinMove) => {
+  MAP.on('load', onLoad).setView(TOKIO_CENTER_COORDINATES, 10);
+  onMainPinMove(TOKIO_CENTER_COORDINATES)
 };
 
 const loadTile = () => {
@@ -79,18 +67,22 @@ const loadTile = () => {
   ).addTo(MAP);
 };
 
-const createMainIcon = () => {
-  const mainMarker = MAIN_MAP_MARKER
-  mainMarker.on('move', (evt) => {
-    let currentMainMarkerCoordinates = evt.target.getLatLng()
-    formInputAdress.value = `${currentMainMarkerCoordinates.lat.toFixed(DIGIT_AFTER_POINT)}, ${currentMainMarkerCoordinates.lng.toFixed(DIGIT_AFTER_POINT)}`
-  });
 
+
+const createMainIcon = (onMainPinMove) => {
+  const mainMarker = MAIN_MAP_MARKER
+  const mainPinMoveHandler = (evt) => {
+    onMainPinMove(evt.target.getLatLng()) //полученные координаты передаем в обработчик изменения координат
+  }
+
+  mainMarker.on('move', mainPinMoveHandler); //навершиваем обработчик движения главного маркера
   mainMarker.addTo(MAP);
 };
 
-const createIcons = () => {
-  ads.forEach((ad) => {
+
+
+const createIcons = (points, onClick) => {
+  points.forEach((point, idx) => {
     // eslint-disable-next-line
     const icon = L.icon({
       iconUrl: Icons.COMMON,
@@ -99,17 +91,14 @@ const createIcons = () => {
     });
     // eslint-disable-next-line
     const adMarker = L.marker(
-      {
-        lat: ad.location.x,
-        lng: ad.location.y,
-      },
+      point,
       {
         icon: icon,
       },
     );
 
     adMarker.addTo(MAP);
-    adMarker.bindPopup(createPopup(ad),
+    adMarker.bindPopup(onClick(idx),
       {
         keepInView: true,
       },
@@ -117,11 +106,11 @@ const createIcons = () => {
   });
 }
 
-const createMap = () => {
-  loadMap();
+const createMap = (points, onLoad, onMainPinMove, onPinClick) => {
+  loadMap(onLoad, onMainPinMove);
   loadTile();
-  createMainIcon();
-  createIcons();
+  createMainIcon(onMainPinMove);
+  createIcons(points, onPinClick);
 }
 
 export {createMap}

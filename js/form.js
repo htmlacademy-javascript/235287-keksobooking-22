@@ -9,6 +9,8 @@ const MIN_PRICES = {
   palace: 10000,
 }
 
+const DIGIT_AFTER_POINT = 5
+
 const adForm = document.querySelector('.ad-form');
 const mapFilter = document.querySelector('.map__filters');
 const formInteractiveElements = adForm.querySelectorAll('input, select');
@@ -23,15 +25,6 @@ const formInputTitle = adForm.querySelector('#title');
 const formInputRoomNumber = adForm.querySelector('#room_number');
 const formInputCapacity = adForm.querySelector('#capacity');
 
-
-const deactivateForm = () => {
-  formInteractiveElements.forEach((formElement) => {
-    formElement.disabled = true;
-  });
-
-  adForm.classList.add('ad-form--disabled')
-}
-
 const deactivateFilter = () => {
   filterInteractiveElements.forEach((filterElement) => {
     filterElement.disabled = true;
@@ -40,12 +33,13 @@ const deactivateFilter = () => {
   mapFilter.classList.add('map__filters--disabled')
 }
 
-const activateForm = () => {
+const deactivateForm = () => {
   formInteractiveElements.forEach((formElement) => {
-    formElement.disabled = false;
+    formElement.disabled = true;
   });
 
-  adForm.classList.remove('ad-form--disabled')
+  adForm.classList.add('ad-form--disabled')
+  deactivateFilter();
 }
 
 const activateFilter = () => {
@@ -55,6 +49,16 @@ const activateFilter = () => {
 
   mapFilter.classList.remove('map__filters--disabled')
 }
+
+const activateForm = () => {
+  formInteractiveElements.forEach((formElement) => {
+    formElement.disabled = false;
+  });
+
+  adForm.classList.remove('ad-form--disabled')
+  activateFilter();
+}
+
 
 const setCheckInTime = () => {
   formInputCheckOut.value = formInputCheckIn.value
@@ -153,11 +157,14 @@ const addEventListenersToForm = () => {
   });
 }
 
+const setMarkerCoordinates = (coords) => {
+  formInputAdress.value = `${coords.lat.toFixed(DIGIT_AFTER_POINT)}, ${coords.lng.toFixed(DIGIT_AFTER_POINT)}`
+}
+
 export {
   addEventListenersToForm,
-  deactivateFilter,
   deactivateForm,
   activateForm,
-  activateFilter,
-  formInputAdress
+  formInputAdress,
+  setMarkerCoordinates
 }
