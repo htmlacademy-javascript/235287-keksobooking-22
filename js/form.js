@@ -97,7 +97,7 @@ const validateTitleLength = () => {
 
 const validateMaxPrice = () => {
 
-  const inputValue = formInputPrice.value;
+  const inputValue = Number(formInputPrice.value);
 
   if (inputValue > MAX_PRICE_VALUE) {
     formInputPrice.setCustomValidity('Максимальная цена за ночь: ' + MAX_PRICE_VALUE)
@@ -110,8 +110,9 @@ const validateMaxPrice = () => {
 
 const validateMinPrice = () => {
   const inputValue = formInputPrice.value;
-  if (inputValue < formInputPrice.min.value) {
-    formInputPrice.setCustomValidity('Минимальная цена за ночь: ' + formInputPrice.min.value)
+  const inputMinValue = Number(formInputPrice.getAttribute('min'));
+  if (inputValue < inputMinValue) {
+    formInputPrice.setCustomValidity('Минимальная цена за ночь: ' +  inputMinValue)
   } else {
     formInputPrice.setCustomValidity('');
   }
