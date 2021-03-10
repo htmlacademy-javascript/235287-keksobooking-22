@@ -1,5 +1,8 @@
 const MAX_PRICE_VALUE = 1000000;
 const MAX_ROOMS_COUNT = 100;
+const DIGIT_AFTER_POINT = 5
+const AD_FORM = document.querySelector('.ad-form');
+const MAP_FILTER = document.querySelector('.map__filters');
 
 const MIN_PRICES = {
   bungalow: 0,
@@ -8,28 +11,25 @@ const MIN_PRICES = {
   palace: 10000,
 }
 
-const DIGIT_AFTER_POINT = 5
+const FormInputs = {
+  TYPE: AD_FORM.querySelector('#type'),
+  PRICE: AD_FORM.querySelector('#price'),
+  CHECKIN: AD_FORM.querySelector('#timein'),
+  CHECKOUT: AD_FORM.querySelector('#timeout'),
+  ADRESS: AD_FORM.querySelector('#address'),
+  TITLE: AD_FORM.querySelector('#title'),
+  ROOM_NUMBER: AD_FORM.querySelector('#room_number'),
+  CAPACITY: AD_FORM.querySelector('#capacity'),
+}
 
 const TitleLength = {
   MIN: 30,
   MAX: 100,
 }
 
-const adForm = document.querySelector('.ad-form');
-const mapFilter = document.querySelector('.map__filters');
-const formInteractiveElements = adForm.querySelectorAll('input, select');
-const filterInteractiveElements = mapFilter.querySelectorAll('input, select');
-
-const formInputType = adForm.querySelector('#type');
-const formInputPrice = adForm.querySelector('#price');
-const formInputCheckIn = adForm.querySelector('#timein');
-const formInputCheckOut = adForm.querySelector('#timeout');
-const formInputAdress = adForm.querySelector('#address');
-const formInputTitle = adForm.querySelector('#title');
-const formInputRoomNumber = adForm.querySelector('#room_number');
-const formInputCapacity = adForm.querySelector('#capacity');
-
-const formInputCapacityOptions = adForm.querySelectorAll('#capacity option');
+const formInteractiveElements = AD_FORM.querySelectorAll('input, select');
+const filterInteractiveElements = MAP_FILTER.querySelectorAll('input, select');
+const formInputCapacityOptions = AD_FORM.querySelectorAll('#capacity option');
 const capacityOptionsLastVariant = formInputCapacityOptions[formInputCapacityOptions.length - 1]
 
 const deactivateFilter = () => {
@@ -37,7 +37,7 @@ const deactivateFilter = () => {
     filterElement.disabled = true;
   });
 
-  mapFilter.classList.add('map__filters--disabled')
+  MAP_FILTER.classList.add('map__filters--disabled')
 }
 
 const deactivateForm = () => {
@@ -45,7 +45,7 @@ const deactivateForm = () => {
     formElement.disabled = true;
   });
 
-  adForm.classList.add('ad-form--disabled')
+  AD_FORM.classList.add('ad-form--disabled')
   deactivateFilter();
 }
 
@@ -54,7 +54,7 @@ const activateFilter = () => {
     filterElement.disabled = false;
   });
 
-  mapFilter.classList.remove('map__filters--disabled')
+  MAP_FILTER.classList.remove('map__filters--disabled')
 }
 
 const activateForm = () => {
@@ -62,62 +62,60 @@ const activateForm = () => {
     formElement.disabled = false;
   });
 
-  adForm.classList.remove('ad-form--disabled')
+  AD_FORM.classList.remove('ad-form--disabled')
   activateFilter();
 }
 
-
 const setCheckInTime = () => {
-  formInputCheckOut.value = formInputCheckIn.value
+  FormInputs.CHECKOUT.value = FormInputs.CHECKIN.value
 };
 
-
 const setCheckOutTime = () => {
-  formInputCheckIn.value = formInputCheckOut.value
+  FormInputs.CHECKIN.value = FormInputs.CHECKOUT.value
 }
 
 const setMinPrices = () => {
-  formInputPrice.placeholder = MIN_PRICES[formInputType.value];
-  formInputPrice.min = MIN_PRICES[formInputType.value];
+  FormInputs.PRICE.placeholder = MIN_PRICES[FormInputs.TYPE.value];
+  FormInputs.PRICE.min = MIN_PRICES[FormInputs.TYPE.value];
 }
 
 const validateTitleLength = () => {
-  const valueLength = formInputTitle.value.length;
+  const valueLength = FormInputs.TITLE.value.length;
 
   if (valueLength < TitleLength.MIN) {
-    formInputTitle.setCustomValidity('Ещё ' + (TitleLength.MIN - valueLength) + ' симв.');
+    FormInputs.TITLE.setCustomValidity('Ещё ' + (TitleLength.MIN - valueLength) + ' симв.');
   } else if (valueLength > TitleLength.MAX) {
-    formInputTitle.setCustomValidity('Удалите лишние ' + (valueLength - TitleLength.MAX) +' симв.');
+    FormInputs.TITLE.setCustomValidity('Удалите лишние ' + (valueLength - TitleLength.MAX) +' симв.');
   } else {
-    formInputTitle.setCustomValidity('');
+    FormInputs.TITLE.setCustomValidity('');
   }
 
-  formInputTitle.reportValidity();
+  FormInputs.TITLE.reportValidity();
 }
 
 const validateMaxPrice = () => {
 
-  const inputValue = Number(formInputPrice.value);
+  const inputValue = Number(FormInputs.PRICE.value);
 
   if (inputValue > MAX_PRICE_VALUE) {
-    formInputPrice.setCustomValidity('Максимальная цена за ночь: ' + MAX_PRICE_VALUE)
+    FormInputs.PRICE.setCustomValidity('Максимальная цена за ночь: ' + MAX_PRICE_VALUE)
   } else {
-    formInputPrice.setCustomValidity('');
+    FormInputs.PRICE.setCustomValidity('');
   }
 
-  formInputPrice.reportValidity();
+  FormInputs.PRICE.reportValidity();
 }
 
 const validateMinPrice = () => {
-  const inputValue = formInputPrice.value;
-  const inputMinValue = Number(formInputPrice.getAttribute('min'));
+  const inputValue = FormInputs.PRICE.value;
+  const inputMinValue = Number(FormInputs.PRICE.getAttribute('min'));
   if (inputValue < inputMinValue) {
-    formInputPrice.setCustomValidity('Минимальная цена за ночь: ' +  inputMinValue)
+    FormInputs.PRICE.setCustomValidity('Минимальная цена за ночь: ' +  inputMinValue)
   } else {
-    formInputPrice.setCustomValidity('');
+    FormInputs.PRICE.setCustomValidity('');
   }
 
-  formInputPrice.reportValidity();
+  FormInputs.PRICE.reportValidity();
 }
 
 const validateRoomsAndGuests = (evt) => {
@@ -142,31 +140,31 @@ const validateRoomsAndGuests = (evt) => {
       }
     })
 
-    formInputCapacity.value = roomsCount
+    FormInputs.CAPACITY.value = roomsCount
   }
 }
 
 const addEventListenersToForm = () => {
-  formInputCheckOut.addEventListener('change', setCheckOutTime);
-  formInputCheckIn.addEventListener('change', setCheckInTime);
-  formInputType.addEventListener('change', setMinPrices);
-  formInputTitle.addEventListener('input', validateTitleLength);
-  formInputRoomNumber.addEventListener('change', validateRoomsAndGuests);
+  FormInputs.CHECKOUT.addEventListener('change', setCheckOutTime);
+  FormInputs.CHECKIN.addEventListener('change', setCheckInTime);
+  FormInputs.TYPE.addEventListener('change', setMinPrices);
+  FormInputs.TITLE.addEventListener('input', validateTitleLength);
+  FormInputs.ROOM_NUMBER.addEventListener('change', validateRoomsAndGuests);
 
-  formInputPrice.addEventListener('input', () => {
+  FormInputs.PRICE.addEventListener('input', () => {
     validateMaxPrice();
     validateMinPrice();
   });
 }
 
 const setMarkerCoordinates = (coords) => {
-  formInputAdress.value = `${coords.lat.toFixed(DIGIT_AFTER_POINT)}, ${coords.lng.toFixed(DIGIT_AFTER_POINT)}`
+  FormInputs.ADRESS.value = `${coords.lat.toFixed(DIGIT_AFTER_POINT)}, ${coords.lng.toFixed(DIGIT_AFTER_POINT)}`
 }
 
 export {
   addEventListenersToForm,
   deactivateForm,
   activateForm,
-  formInputAdress,
+  FormInputs,
   setMarkerCoordinates
 }
