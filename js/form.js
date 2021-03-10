@@ -1,6 +1,5 @@
-const MIN_TITLE_LENGTH = 30;
-const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE_VALUE = 1000000;
+const MAX_ROOMS_COUNT = 100;
 
 const MIN_PRICES = {
   bungalow: 0,
@@ -10,6 +9,11 @@ const MIN_PRICES = {
 }
 
 const DIGIT_AFTER_POINT = 5
+
+const TitleLength = {
+  MIN: 30,
+  MAX: 100,
+}
 
 const adForm = document.querySelector('.ad-form');
 const mapFilter = document.querySelector('.map__filters');
@@ -24,6 +28,9 @@ const formInputAdress = adForm.querySelector('#address');
 const formInputTitle = adForm.querySelector('#title');
 const formInputRoomNumber = adForm.querySelector('#room_number');
 const formInputCapacity = adForm.querySelector('#capacity');
+
+const formInputCapacityOptions = adForm.querySelectorAll('#capacity option');
+const capacityOptionsLastVariant = formInputCapacityOptions[formInputCapacityOptions.length - 1]
 
 const deactivateFilter = () => {
   filterInteractiveElements.forEach((filterElement) => {
@@ -77,10 +84,10 @@ const setMinPrices = () => {
 const validateTitleLength = () => {
   const valueLength = formInputTitle.value.length;
 
-  if (valueLength < MIN_TITLE_LENGTH) {
-    formInputTitle.setCustomValidity('Ещё ' + (MIN_TITLE_LENGTH - valueLength) + ' симв.');
-  } else if (valueLength > MAX_TITLE_LENGTH) {
-    formInputTitle.setCustomValidity('Удалите лишние ' + (valueLength - MAX_TITLE_LENGTH) +' симв.');
+  if (valueLength < TitleLength.MIN) {
+    formInputTitle.setCustomValidity('Ещё ' + (TitleLength.MIN - valueLength) + ' симв.');
+  } else if (valueLength > TitleLength.MAX) {
+    formInputTitle.setCustomValidity('Удалите лишние ' + (valueLength - TitleLength.MAX) +' симв.');
   } else {
     formInputTitle.setCustomValidity('');
   }
@@ -112,10 +119,6 @@ const validateMinPrice = () => {
   formInputPrice.reportValidity();
 }
 
-const MAX_ROOMS_COUNT = 100;
-
-const formInputCapacityOptions = adForm.querySelectorAll('#capacity option');
-
 const validateRoomsAndGuests = (evt) => {
   const roomsCount = Number(evt.target.value);
   if (roomsCount === MAX_ROOMS_COUNT) {
@@ -123,14 +126,14 @@ const validateRoomsAndGuests = (evt) => {
       option.disabled = true;
     })
 
-    formInputCapacityOptions[formInputCapacityOptions.length - 1].disabled = false;
-    formInputCapacityOptions[formInputCapacityOptions.length - 1].selected = true;
+    capacityOptionsLastVariant.disabled = false;
+    capacityOptionsLastVariant.selected = true;
   } else {
     formInputCapacityOptions.forEach((option) => {
       option.disabled = false;
     })
 
-    formInputCapacityOptions[formInputCapacityOptions.length - 1].disabled = true;
+    capacityOptionsLastVariant.disabled = true;
 
     formInputCapacityOptions.forEach((option) => {
       if(roomsCount < option.value) {
@@ -147,9 +150,7 @@ const addEventListenersToForm = () => {
   formInputCheckIn.addEventListener('change', setCheckInTime);
   formInputType.addEventListener('change', setMinPrices);
   formInputTitle.addEventListener('input', validateTitleLength);
-  formInputRoomNumber.addEventListener('change', (evt) => {
-    validateRoomsAndGuests(evt);
-  });
+  formInputRoomNumber.addEventListener('change', validateRoomsAndGuests);
 
   formInputPrice.addEventListener('input', () => {
     validateMaxPrice();
