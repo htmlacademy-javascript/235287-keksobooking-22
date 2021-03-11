@@ -1,5 +1,6 @@
 // eslint-disable-next-line
-const MAP = L.map('map-canvas');
+const LEAFLET = L;
+const MAP = LEAFLET.map('map-canvas');
 const OPENSTREETMAP_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 const OPENSTREETMAP_TILE = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
@@ -32,14 +33,14 @@ const Icons = {
   MAIN: './img/main-pin.svg',
   COMMON: './img/pin.svg',
 }
-// eslint-disable-next-line
-const MAIN_MAP_ICON = L.icon({
+
+const MAIN_MAP_ICON = LEAFLET.icon({
   iconUrl: Icons.MAIN,
   iconSize: [MAIN_PIN_ICON_SIZES.width, MAIN_PIN_ICON_SIZES.height],
   iconAnchor: [MAIN_PIN_ICON_ANCHOR_SIZES.width, MAIN_PIN_ICON_ANCHOR_SIZES.height],
 });
-// eslint-disable-next-line
-const MAIN_MAP_MARKER = L.marker(
+
+const MAIN_MAP_MARKER = LEAFLET.marker(
   {
     lat: `${TOKIO_CENTER_COORDINATES.lat}`,
     lng: `${TOKIO_CENTER_COORDINATES.lng}`,
@@ -50,24 +51,19 @@ const MAIN_MAP_MARKER = L.marker(
   },
 );
 
-// formInputAdress.value = `${TOKIO_CENTER_COORDINATES.lat}, ${TOKIO_CENTER_COORDINATES.lng}`;
-
 const loadMap = (onLoad, onMainPinMove) => {
   MAP.on('load', onLoad).setView(TOKIO_CENTER_COORDINATES, 10);
   onMainPinMove(TOKIO_CENTER_COORDINATES)
 };
 
 const loadTile = () => {
-  // eslint-disable-next-line
-  L.tileLayer (
+  LEAFLET.tileLayer (
     OPENSTREETMAP_TILE,
     {
       attribution: OPENSTREETMAP_COPYRIGHT,
     },
   ).addTo(MAP);
 };
-
-
 
 const createMainIcon = (onMainPinMove) => {
   const mainMarker = MAIN_MAP_MARKER
@@ -79,18 +75,15 @@ const createMainIcon = (onMainPinMove) => {
   mainMarker.addTo(MAP);
 };
 
-
-
 const createIcons = (points, onClick) => {
   points.forEach((point, idx) => {
-    // eslint-disable-next-line
-    const icon = L.icon({
+    const icon = LEAFLET.icon({
       iconUrl: Icons.COMMON,
       iconSize: [COMMON_PIN_ICON_SIZES.width, COMMON_PIN_ICON_SIZES.height],
       iconAnchor: [COMMON_PIN_ICON_ANCHOR_SIZES.width, COMMON_PIN_ICON_ANCHOR_SIZES.height],
     });
-    // eslint-disable-next-line
-    const adMarker = L.marker(
+
+    const adMarker = LEAFLET.marker(
       point,
       {
         icon: icon,
