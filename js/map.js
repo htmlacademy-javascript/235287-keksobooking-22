@@ -1,88 +1,97 @@
-import {activateForm, activateFilter, formInputAdress} from './form.js'
-
-import {ads} from './data.js';
-
-import {createPopup} from './popup.js'
-
-const DIGIT_AFTER_POINT = 5
 // eslint-disable-next-line
-const map = L.map('map-canvas')
+const LEAFLET = L;
+const MAP = LEAFLET.map('map-canvas');
+const OPENSTREETMAP_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+const OPENSTREETMAP_TILE = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
-const tokioCenterCoordinates = {
-  LAT: 35.6895,
-  LNG: 139.69171,
+const MAIN_PIN_ICON_SIZES = {
+  width: 50,
+  height: 50,
 };
 
-formInputAdress.value = `${tokioCenterCoordinates.LAT}, ${tokioCenterCoordinates.LNG}`;
+const MAIN_PIN_ICON_ANCHOR_SIZES = {
+  width: 25,
+  height: 50,
+};
 
-const loadMap = () => {
-  map.on('load', () => {
-    activateForm();
-    activateFilter();
-  }).setView ({
-    lat: `${tokioCenterCoordinates.LAT}`,
-    lng: `${tokioCenterCoordinates.LNG}`,
-  }, 10);
+const COMMON_PIN_ICON_SIZES = {
+  width: 40,
+  height: 40,
+};
+
+const COMMON_PIN_ICON_ANCHOR_SIZES = {
+  width: 20,
+  height: 40,
+};
+
+const TOKIO_CENTER_COORDINATES = {
+  lat: 35.6895,
+  lng: 139.69171,
+};
+
+const Icons = {
+  MAIN: './img/main-pin.svg',
+  COMMON: './img/pin.svg',
+}
+
+const MAIN_MAP_ICON = LEAFLET.icon({
+  iconUrl: Icons.MAIN,
+  iconSize: [MAIN_PIN_ICON_SIZES.width, MAIN_PIN_ICON_SIZES.height],
+  iconAnchor: [MAIN_PIN_ICON_ANCHOR_SIZES.width, MAIN_PIN_ICON_ANCHOR_SIZES.height],
+});
+
+const MAIN_MAP_MARKER = LEAFLET.marker(
+  {
+    lat: `${TOKIO_CENTER_COORDINATES.lat}`,
+    lng: `${TOKIO_CENTER_COORDINATES.lng}`,
+  },
+  {
+    draggable: true,
+    icon: MAIN_MAP_ICON,
+  },
+);
+
+const loadMap = (onLoad, onMainPinMove) => {
+  MAP.on('load', onLoad).setView(TOKIO_CENTER_COORDINATES, 10);
+  onMainPinMove(TOKIO_CENTER_COORDINATES)
 };
 
 const loadTile = () => {
-  // eslint-disable-next-line
-  L.tileLayer (
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  LEAFLET.tileLayer (
+    OPENSTREETMAP_TILE,
     {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      attribution: OPENSTREETMAP_COPYRIGHT,
     },
-  ).addTo(map);
+  ).addTo(MAP);
 };
 
-const createMainIcon = () => {
-  // eslint-disable-next-line
-  const mainPinIcon = L.icon({
-    iconUrl: './img/main-pin.svg',
-    iconSize: [50, 50],
-    iconAnchor: [25, 50],
-  });
-  // eslint-disable-next-line
-  const mainMarker = L.marker(
-    {
-      lat: `${tokioCenterCoordinates.LAT}`,
-      lng: `${tokioCenterCoordinates.LNG}`,
-    },
-    {
-      draggable: true,
-      icon: mainPinIcon,
-    },
-  );
+const createMainIcon = (onMainPinMove) => {
+  const mainMarker = MAIN_MAP_MARKER
+  const mainPinMoveHandler = (evt) => {
+    onMainPinMove(evt.target.getLatLng()) //полученные координаты передаем в обработчик изменения координат
+  }
 
-  mainMarker.on('moveend', (evt) => {
-    let currentMainMarkerCoordinates = evt.target.getLatLng()
-    formInputAdress.value = `${currentMainMarkerCoordinates.lat.toFixed(DIGIT_AFTER_POINT)}, ${currentMainMarkerCoordinates.lng.toFixed(DIGIT_AFTER_POINT)}`
-  });
-
-  mainMarker.addTo(map);
+  mainMarker.on('move', mainPinMoveHandler); //навершиваем обработчик движения главного маркера
+  mainMarker.addTo(MAP);
 };
 
-const createIcons = () => {
-  ads.forEach((ad) => {
-    // eslint-disable-next-line
-    const icon = L.icon({
-      iconUrl: './img/pin.svg',
-      iconSize: [40, 40],
-      iconAnchor: [20, 40],
+const createIcons = (points, onClick) => {
+  points.forEach((point, idx) => {
+    const icon = LEAFLET.icon({
+      iconUrl: Icons.COMMON,
+      iconSize: [COMMON_PIN_ICON_SIZES.width, COMMON_PIN_ICON_SIZES.height],
+      iconAnchor: [COMMON_PIN_ICON_ANCHOR_SIZES.width, COMMON_PIN_ICON_ANCHOR_SIZES.height],
     });
-    // eslint-disable-next-line
-    const adMarker = L.marker(
-      {
-        lat: ad.location.x,
-        lng: ad.location.y,
-      },
+
+    const adMarker = LEAFLET.marker(
+      point,
       {
         icon: icon,
       },
     );
 
-    adMarker.addTo(map);
-    adMarker.bindPopup(createPopup(ad),
+    adMarker.addTo(MAP);
+    adMarker.bindPopup(onClick(idx),
       {
         keepInView: true,
       },
@@ -90,11 +99,11 @@ const createIcons = () => {
   });
 }
 
-const createMap = () => {
-  loadMap();
+const createMap = (points, onLoad, onMainPinMove, onPinClick) => {
+  loadMap(onLoad, onMainPinMove);
   loadTile();
-  createMainIcon();
-  createIcons();
+  createMainIcon(onMainPinMove);
+  createIcons(points, onPinClick);
 }
 
 export {createMap}
