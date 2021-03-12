@@ -1,4 +1,4 @@
-const SERVER_GET_URL = 'https://22.javascript.pages.academy/keksobooking/data';
+const SERVER_GET_URL = 'https://22.javascript.pages.academy/keksobooking/data22';
 
 const getData = (serverUrl, onSuccess, onError) => () => {
   fetch(serverUrl)

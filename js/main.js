@@ -3,12 +3,12 @@ import {addEventListenersToForm, deactivateForm,  activateForm,  setMarkerCoordi
 import {createMap} from './map.js';
 import {createPopup} from './popup.js'
 import {getData, SERVER_GET_URL} from './api.js'
+import {showAlertPopup, ALERT_POPUP_TIME} from './util.js'
 
 deactivateForm();
 addEventListenersToForm();
 
 const onSuccessHandler = (ads) => {
-  console.log(ads)
   const points = ads.map(ad => ({
           lat: ad.location.lat,
           lng: ad.location.lng,
@@ -19,7 +19,7 @@ const onSuccessHandler = (ads) => {
 }
 
 const onErrorHandler = (error) => {
-  console.error(error);
+  showAlertPopup('Ошибка: данные об объявлениях не загружены')
 }
 
 getData(SERVER_GET_URL, onSuccessHandler, onErrorHandler)();
