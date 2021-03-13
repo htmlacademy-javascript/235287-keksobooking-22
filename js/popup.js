@@ -6,6 +6,7 @@ const POPUP_TEMPLATE = document.querySelector('#card').content.querySelector('.p
 const POPUP_SUCCESS = document.querySelector('#success').content.querySelector('.success');
 const POPUP_ERROR = document.querySelector('#error').content.querySelector('.error');
 const MAIN = document.querySelector('main');
+const ALERT_POPUP_TIME = 5000;
 const PopupAvatarsSizes = {
   WIDTH: 70,
   HEIGHT: 70,
@@ -150,10 +151,31 @@ const showPopupError = () => {
   })
 }
 
+const showAlertPopup = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = 1000;
+  alertContainer.style.position = 'fixed';
+  alertContainer.style.left = 0;
+  alertContainer.style.top = 0;
+  alertContainer.style.right = 0;
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontFamily = 'Roboto';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
+  alertContainer.textContent = message;
+  document.body.append(alertContainer);
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_POPUP_TIME);
+}
+
 export {
   createPopup,
   showPopupSuccess,
   showPopupError,
   POPUP_SUCCESS,
   POPUP_ERROR,
+  ALERT_POPUP_TIME,
+  showAlertPopup,
 }

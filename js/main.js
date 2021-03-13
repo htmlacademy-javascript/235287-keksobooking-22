@@ -1,8 +1,7 @@
 import {addEventListenersToForm, deactivateForm,  activateForm,  setMarkerCoordinates} from './form.js';
 import {createMap} from './map.js';
-import {createPopup, showPopupSuccess,POPUP_SUCCESS} from './popup.js'
+import {createPopup, showPopupSuccess,POPUP_SUCCESS, showAlertPopup, ALERT_POPUP_TIME} from './popup.js'
 import {getData, SERVER_GET_URL} from './api.js'
-import {showAlertPopup, ALERT_POPUP_TIME} from './util.js'
 
 deactivateForm();
 addEventListenersToForm();

@@ -1,10 +1,12 @@
 import {sendData, SERVER_SEND_URL} from './api.js';
 import {showPopupSuccess, showPopupError, POPUP_SUCCESS, POPUP_ERROR} from './popup.js';
+import {resetMap} from './map.js';
 
 const MAX_PRICE_VALUE = 1000000;
 const MAX_ROOMS_COUNT = 100;
 const DIGIT_AFTER_POINT = 5
 const AD_FORM = document.querySelector('.ad-form');
+const BUTTON_RESET = document.querySelector('.ad-form__reset');
 const MAP_FILTER = document.querySelector('.map__filters');
 
 const MIN_PRICES = {
@@ -167,10 +169,15 @@ const addEventListenersToForm = () => {
     sendData(
       SERVER_SEND_URL,
       formData,
-      () => {showPopupSuccess(), AD_FORM.reset()},
+      () => {showPopupSuccess(), AD_FORM.reset(), resetMap()},
       showPopupError
     );
   });
+
+  BUTTON_RESET.addEventListener('click', () => {
+    AD_FORM.reset();
+    resetMap();
+  })
 }
 
 const setMarkerCoordinates = (coords) => {

@@ -99,6 +99,11 @@ const createIcons = (points, onClick) => {
   });
 }
 
+const resetMap = () => {
+  MAP.panTo(new LEAFLET.LatLng(TOKIO_CENTER_COORDINATES.lat, TOKIO_CENTER_COORDINATES.lng));
+  MAIN_MAP_MARKER.setLatLng(LEAFLET.latLng(TOKIO_CENTER_COORDINATES.lat, TOKIO_CENTER_COORDINATES.lng));
+}
+
 const createMap = (points, onLoad, onMainPinMove, onPinClick) => {
   loadMap(onLoad, onMainPinMove);
   loadTile();
@@ -106,4 +111,4 @@ const createMap = (points, onLoad, onMainPinMove, onPinClick) => {
   createIcons(points, onPinClick);
 }
 
-export {createMap}
+export {createMap, resetMap}
