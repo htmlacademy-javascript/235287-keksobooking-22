@@ -1,5 +1,5 @@
 const SERVER_GET_URL = 'https://22.javascript.pages.academy/keksobooking/data';
-const SERVER_SEND_URL = 'https://22.javascript.pages.academy/keksobooking';
+const SERVER_SEND_URL = 'https://22.javascript.pages.academy/keksobooking22';
 
 const getData = (serverUrl, onSuccess, onError) => () => {
   fetch(serverUrl)

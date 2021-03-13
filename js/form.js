@@ -167,8 +167,8 @@ const addEventListenersToForm = () => {
     sendData(
       SERVER_SEND_URL,
       formData,
-      showPopupSuccess,
-      showPopupError,
+      () => {showPopupSuccess(), AD_FORM.reset()},
+      showPopupError
     );
   });
 }
