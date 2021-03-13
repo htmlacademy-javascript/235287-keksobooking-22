@@ -3,6 +3,9 @@ import {pluralize} from './util.js';
 const ROOMS_VARIANTS = ['комната', 'комнаты', 'комнат'];
 const GUESTS_VARIANTS = ['гостя', 'гостей', 'гостей'];
 const POPUP_TEMPLATE = document.querySelector('#card').content.querySelector('.popup');
+const POPUP_SUCCESS = document.querySelector('#success').content.querySelector('.success');
+const POPUP_ERROR = document.querySelector('#error').content.querySelector('.error');
+const MAIN = document.querySelector('main');
 const PopupAvatarsSizes = {
   WIDTH: 70,
   HEIGHT: 70,
@@ -113,6 +116,22 @@ const createPopup = (popupData) => {
   return popup
 }
 
+const showPopupSuccess = () => {
+  const popup = POPUP_SUCCESS.cloneNode(true);
+  popup.style.zIndex = 9999;
+  MAIN.appendChild(popup);
+}
+
+const showPopupError = () => {
+  const popup = POPUP_ERROR.cloneNode(true);
+  popup.style.zIndex = 9999;
+  MAIN.appendChild(popup);
+}
+
 export {
-  createPopup
+  createPopup,
+  showPopupSuccess,
+  showPopupError,
+  POPUP_SUCCESS,
+  POPUP_ERROR,
 }

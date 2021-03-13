@@ -1,3 +1,6 @@
+import {sendData, SERVER_SEND_URL} from './api.js';
+import {showPopupSuccess, showPopupError, POPUP_SUCCESS, POPUP_ERROR} from './popup.js';
+
 const MAX_PRICE_VALUE = 1000000;
 const MAX_ROOMS_COUNT = 100;
 const DIGIT_AFTER_POINT = 5
@@ -155,6 +158,19 @@ const addEventListenersToForm = () => {
     validateMaxPrice();
     validateMinPrice();
   });
+
+  AD_FORM.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const formData = new FormData(evt.target)
+
+    sendData(
+      SERVER_SEND_URL,
+      formData,
+      showPopupSuccess,
+      showPopupError,
+    );
+  });
 }
 
 const setMarkerCoordinates = (coords) => {
@@ -166,5 +182,5 @@ export {
   deactivateForm,
   activateForm,
   FormInputs,
-  setMarkerCoordinates
+  setMarkerCoordinates,
 }

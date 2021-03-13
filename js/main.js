@@ -1,7 +1,6 @@
-
 import {addEventListenersToForm, deactivateForm,  activateForm,  setMarkerCoordinates} from './form.js';
 import {createMap} from './map.js';
-import {createPopup} from './popup.js'
+import {createPopup, showPopupSuccess,POPUP_SUCCESS} from './popup.js'
 import {getData, SERVER_GET_URL} from './api.js'
 import {showAlertPopup, ALERT_POPUP_TIME} from './util.js'
 
@@ -23,3 +22,4 @@ const onErrorHandler = (error) => {
 }
 
 getData(SERVER_GET_URL, onSuccessHandler, onErrorHandler)();
+
