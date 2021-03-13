@@ -83,5 +83,5 @@ export {
   getRandomArrayElement,
   getRandomArrayWithUniqueElements,
   getRandomObjectValue,
-  pluralize,
+  pluralize
 };

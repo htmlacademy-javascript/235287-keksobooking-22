@@ -1,5 +1,5 @@
 import {sendData, SERVER_SEND_URL} from './api.js';
-import {showPopupSuccess, showPopupError, POPUP_SUCCESS, POPUP_ERROR} from './popup.js';
+import {showPopupSuccess, showPopupError} from './popup.js';
 import {resetMap} from './map.js';
 
 const MAX_PRICE_VALUE = 1000000;
@@ -170,7 +170,7 @@ const addEventListenersToForm = () => {
       SERVER_SEND_URL,
       formData,
       () => {showPopupSuccess(), AD_FORM.reset(), resetMap()},
-      showPopupError
+      showPopupError,
     );
   });
 
@@ -189,5 +189,5 @@ export {
   deactivateForm,
   activateForm,
   FormInputs,
-  setMarkerCoordinates,
+  setMarkerCoordinates
 }

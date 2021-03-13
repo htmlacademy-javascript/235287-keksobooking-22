@@ -1,6 +1,6 @@
 import {addEventListenersToForm, deactivateForm,  activateForm,  setMarkerCoordinates} from './form.js';
 import {createMap} from './map.js';
-import {createPopup, showPopupSuccess,POPUP_SUCCESS, showAlertPopup, ALERT_POPUP_TIME} from './popup.js'
+import {createPopup, showAlertPopup} from './popup.js'
 import {getData, SERVER_GET_URL} from './api.js'
 
 deactivateForm();
@@ -8,15 +8,15 @@ addEventListenersToForm();
 
 const onSuccessHandler = (ads) => {
   const points = ads.map(ad => ({
-          lat: ad.location.lat,
-          lng: ad.location.lng,
-        }))
+    lat: ad.location.lat,
+    lng: ad.location.lng,
+  }))
 
   const pinClickHandler = idx => createPopup(ads[idx]);
   createMap(points, activateForm, setMarkerCoordinates, pinClickHandler);
 }
 
-const onErrorHandler = (error) => {
+const onErrorHandler = () => {
   showAlertPopup('Ошибка: данные об объявлениях не загружены')
 }
 

@@ -174,8 +174,6 @@ export {
   createPopup,
   showPopupSuccess,
   showPopupError,
-  POPUP_SUCCESS,
-  POPUP_ERROR,
   ALERT_POPUP_TIME,
-  showAlertPopup,
+  showAlertPopup
 }
