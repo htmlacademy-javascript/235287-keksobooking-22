@@ -152,42 +152,6 @@ const showPopup = (template, button) => {
   document.addEventListener('keydown', onPopupEscKeydown);
 }
 
-// _____________________________________________________________________________________
-
-// const showPopupSuccess = () => {
-//   const popup = POPUP_SUCCESS.cloneNode(true);
-//   popup.style.zIndex = POPUPS_Z_INDEX;
-//   MAIN.appendChild(popup);
-
-//   popup.addEventListener('click', () => {
-//     popup.remove()
-//   })
-
-//   document.addEventListener('keydown', (evt) => {
-//     if (evt.keyCode === 27) {
-//       popup.remove()
-//     }
-//   })
-// }
-
-// const showPopupError = () => {
-//   const popup = POPUP_ERROR.cloneNode(true);
-//   popup.style.zIndex = POPUPS_Z_INDEX;
-//   MAIN.appendChild(popup);
-
-//   const popupCloseButton = popup.querySelector('.error__button');
-
-//   popupCloseButton.addEventListener('click', () => {
-//     popup.remove()
-//   })
-
-//   document.addEventListener('keydown', (evt) => {
-//     if (evt.keyCode === 27) {
-//       popup.remove()
-//     }
-//   })
-// }
-
 const showAlertPopup = () => {
   const alertContainer = ALERT_POPUP.cloneNode(true);
   document.body.append(alertContainer);
