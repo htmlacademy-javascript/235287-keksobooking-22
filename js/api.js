@@ -13,7 +13,7 @@ const getData = (serverUrl, onSuccess, onError) => () => {
     .then((data) => {
       onSuccess(data);
     })
-    .catch((error) => {
+    .catch(() => {
       onError();
     });
 }

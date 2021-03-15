@@ -4,9 +4,9 @@ import {createPopup, showAlertPopup} from './popup.js'
 import {getData, SERVER_GET_URL} from './api.js'
 
 const adaptPoints = ad => ({
-    lat: ad.location.lat,
-    lng: ad.location.lng,
-  })
+  lat: ad.location.lat,
+  lng: ad.location.lng,
+})
 
 
 const renderIcons = (ads) => {
@@ -22,7 +22,6 @@ const onSuccessHandler = (ads) => {
 }
 
 const onErrorHandler = () => {
-  console.error()
   showAlertPopup()
 }
 
