@@ -65,6 +65,8 @@ const loadTile = () => {
   ).addTo(MAP);
 };
 
+//Создание главного маркера
+
 const createMainIcon = (onMainPinMove) => {
   const mainMarker = MAIN_MAP_MARKER
   const mainPinMoveHandler = (evt) => {
@@ -74,6 +76,9 @@ const createMainIcon = (onMainPinMove) => {
   mainMarker.on('move', mainPinMoveHandler); //навершиваем обработчик движения главного маркера
   mainMarker.addTo(MAP);
 };
+
+//СОздание маркеров объявлений
+
 
 const createIcons = (points, onClick) => {
   points.forEach((point, idx) => {
@@ -104,11 +109,10 @@ const resetMap = () => {
   MAIN_MAP_MARKER.setLatLng(LEAFLET.latLng(TOKIO_CENTER_COORDINATES.lat, TOKIO_CENTER_COORDINATES.lng));
 }
 
-const createMap = (points, onLoad, onMainPinMove, onPinClick) => {
+const createMap = (onLoad, onMainPinMove) => {
   loadMap(onLoad, onMainPinMove);
   loadTile();
   createMainIcon(onMainPinMove);
-  createIcons(points, onPinClick);
 }
 
-export {createMap, resetMap}
+export {createMap, resetMap, createIcons}
