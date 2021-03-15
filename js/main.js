@@ -1,5 +1,5 @@
 import {deactivateForm, activateForm, setMarkerCoordinates} from './form.js';
-import {createMap, createIcons} from './map.js';
+import {createMap, createIcons, removeIcons} from './map.js';
 import {createPopup, showAlertPopup} from './popup.js'
 import {getData, SERVER_GET_URL} from './api.js'
 
@@ -9,15 +9,21 @@ const adaptPoints = ad => ({
   })
 
 
-const onSuccessHandler = (ads) => {
+const renderIcons = (ads) => {
   const points = ads.map(adaptPoints)
   const pinClickHandler = idx => createPopup(ads[idx]);
+
+  removeIcons();
   createIcons(points, pinClickHandler);
 }
 
+const onSuccessHandler = (ads) => {
+  renderIcons(ads);
+}
+
 const onErrorHandler = () => {
-  console.error(err)
-  showAlertPopup('Ошибка: данные об объявлениях не загружены')
+  console.error()
+  showAlertPopup()
 }
 
 deactivateForm();
