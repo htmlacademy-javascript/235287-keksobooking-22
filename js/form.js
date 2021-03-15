@@ -151,6 +151,12 @@ const validateRoomsAndGuests = (evt) => {
   }
 }
 
+const handleFormSuccess = () => {
+  showPopupSuccess(),
+  AD_FORM.reset(),
+  resetMap()
+}
+
 const addEventListenersToForm = () => {
   FormInputs.CHECKOUT.addEventListener('change', setCheckOutTime);
   FormInputs.CHECKIN.addEventListener('change', setCheckInTime);
@@ -171,7 +177,7 @@ const addEventListenersToForm = () => {
     sendData(
       SERVER_SEND_URL,
       formData,
-      () => {showPopupSuccess(), AD_FORM.reset(), resetMap()},
+      handleFormSuccess,
       showPopupError,
     );
   });
