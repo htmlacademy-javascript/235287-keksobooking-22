@@ -3,6 +3,13 @@ import {pluralize} from './util.js';
 const ROOMS_VARIANTS = ['комната', 'комнаты', 'комнат'];
 const GUESTS_VARIANTS = ['гостя', 'гостей', 'гостей'];
 const POPUP_TEMPLATE = document.querySelector('#card').content.querySelector('.popup');
+const POPUP_SUCCESS = document.querySelector('#success').content.querySelector('.success');
+const POPUP_ERROR = document.querySelector('#error').content.querySelector('.error');
+const POPUP_ERROR_BUTTON = POPUP_ERROR.querySelector('.error__button');
+const MAIN = document.querySelector('main');
+const ALERT_POPUP = document.querySelector('#data-error').content.querySelector('.data-error__popup');
+const ALERT_POPUP_TIME = 5000;
+const POPUPS_Z_INDEX = 9999;
 const PopupAvatarsSizes = {
   WIDTH: 70,
   HEIGHT: 70,
@@ -113,6 +120,53 @@ const createPopup = (popupData) => {
   return popup
 }
 
+// _____________________________________________________________________________________
+
+const showPopup = (template, button) => {
+
+  const modal = template.cloneNode(true);
+  modal.style.zIndex = POPUPS_Z_INDEX;
+  MAIN.appendChild(modal);
+
+  const onPopupEscKeydown = (evt) => {
+    if (evt.keyCode === 27) {
+      evt.preventDefault();
+      closePopup();
+    }
+  };
+
+  const closePopup = () => {
+    modal.classList.add('hidden');
+    if (button) {
+      button.removeEventListener('click', closePopup);
+    }
+    modal.removeEventListener('click', closePopup);
+    document.removeEventListener('keydown', onPopupEscKeydown);
+  };
+
+  if (button) {
+    button.addEventListener('click', closePopup);
+  }
+
+  modal.addEventListener('click', closePopup);
+  document.addEventListener('keydown', onPopupEscKeydown);
+}
+
+const showAlertPopup = () => {
+  const alertContainer = ALERT_POPUP.cloneNode(true);
+  document.body.append(alertContainer);
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_POPUP_TIME);
+}
+
+const showPopupSuccess = () => showPopup(POPUP_SUCCESS);
+const showPopupError = () => showPopup(POPUP_ERROR, POPUP_ERROR_BUTTON);
+
 export {
-  createPopup
+  createPopup,
+  showPopupSuccess,
+  showPopupError,
+  ALERT_POPUP_TIME,
+  showAlertPopup
 }

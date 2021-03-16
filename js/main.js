@@ -1,16 +1,31 @@
-import {createAdSet, ADS_NUMBER} from './data.js';
-import {addEventListenersToForm, deactivateForm,  activateForm,  setMarkerCoordinates} from './form.js';
-import {createMap} from './map.js';
-import {createPopup} from './popup.js'
+import {deactivateForm, activateForm, setMarkerCoordinates} from './form.js';
+import {createMap, createIcons, removeIcons} from './map.js';
+import {createPopup, showAlertPopup} from './popup.js'
+import {getData, SERVER_GET_URL} from './api.js'
 
-const ads = createAdSet(ADS_NUMBER);
-const points = ads.map(ad => ({
-  lat: ad.location.x,
-  lng: ad.location.y,
-}))
+const adaptPoints = ad => ({
+  lat: ad.location.lat,
+  lng: ad.location.lng,
+})
 
-const pinClickHandler = idx => createPopup(ads[idx]);
+
+const renderIcons = (ads) => {
+  const points = ads.map(adaptPoints)
+  const pinClickHandler = idx => createPopup(ads[idx]);
+
+  removeIcons();
+  createIcons(points, pinClickHandler);
+}
+
+const onSuccessHandler = (ads) => {
+  renderIcons(ads);
+}
+
+const onErrorHandler = () => {
+  showAlertPopup()
+}
 
 deactivateForm();
-addEventListenersToForm();
-createMap(points, activateForm, setMarkerCoordinates, pinClickHandler);
+createMap(activateForm, setMarkerCoordinates);
+getData(SERVER_GET_URL, onSuccessHandler, onErrorHandler)();
+
