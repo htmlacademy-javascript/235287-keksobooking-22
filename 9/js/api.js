@@ -2,12 +2,12 @@ const SERVER_GET_URL = 'https://22.javascript.pages.academy/keksobooking/data';
 const SERVER_SEND_URL = 'https://22.javascript.pages.academy/keksobooking';
 
 const getData = (serverUrl, onSuccess, onError) => () => {
-  fetch(serverUrl)
+  return fetch(serverUrl)
     .then((response) => {
       if (response.ok) {
         return response.json();
       } else {
-        onError();
+        throw new Error(`${response.status} ${response.statusText}`);
       }
     })
     .then((data) => {

@@ -1005,6 +1005,19 @@ fieldset {
   opacity: 0.6;
 }
 
+.data-error__popup {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 999;
+  padding: 3px 10px;
+  background-color: red;
+  font-family: "Roboto", "Arial", sans-serif;
+  font-size: 30px;
+  text-align: center;
+}
+
 .visually-hidden {
   position: absolute;
 
